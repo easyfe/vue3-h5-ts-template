@@ -14,7 +14,7 @@ import { ConfigVisualizerConfig } from "./modules/visualizer";
 import { ConfigCompressPlugin } from "./modules/compress";
 import { ConfigOssPlugin } from "./modules/oss";
 import { CosConfig } from "@syyfe/vite-plugin-cos";
-import VueSetupExtend from "vite-plugin-vue-setup-extend";
+import VueSetupExtend from "vite-plugin-vue-setup-extend-plus";
 
 /**
  * 创建vite插件

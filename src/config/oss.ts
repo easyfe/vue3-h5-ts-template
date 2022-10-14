@@ -20,9 +20,9 @@ export function getOssConfig(envMap: Record<string, any>): { uploadOption: CosCo
         SecretId: "",
         SecretKey: "",
         Bucket: "",
-        Region: "ap-shanghai",
+        Region: "",
         bucketName: envMap.VITE_APP_MODE === "production" ? "dist" : "test",
-        remoteDir: `efe-h5-vue3/${generateVersion()}`,
+        remoteDir: `empty-h5-web-vue3/${generateVersion()}`,
         from: "dist",
         excludesExtra: ["map"]
     };
