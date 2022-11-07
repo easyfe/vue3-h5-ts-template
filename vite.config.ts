@@ -23,12 +23,12 @@ export default ({ mode }: ConfigEnv): UserConfig => {
         plugins: createVitePlugins({ envMap, uploadOption: ossConfig.uploadOption }),
         // 全局样式引用
         css: {
-            // preprocessorOptions: {
-            //     scss: {
-            //         javascriptEnabled: true,
-            //         additionalData: `@import "@/styles/index.scss";`
-            //     }
-            // }
+            preprocessorOptions: {
+                scss: {
+                    javascriptEnabled: true,
+                    additionalData: `@import "@/styles/utils/@util.scss";`
+                }
+            }
         },
         // 开发环境
         server: {
