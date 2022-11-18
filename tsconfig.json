@@ -13,7 +13,7 @@
         "sourceMap": true,
         "baseUrl": ".",
         "types": ["vite/client"],
-        "typeRoots": ["src/types"],
+        "typeRoots": ["./node_modules/@types/", "src/types"],
         "paths": {
             "@/*": ["src/*"]
         },
