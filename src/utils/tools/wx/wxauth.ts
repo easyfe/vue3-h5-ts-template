@@ -5,13 +5,15 @@
  * @Last Modified time: 2021-09-17 20:40:04
  */
 
+import envHelper from "@/utils/helper/env";
+
 export default function wxauth(): void {
     let apiUrl = "";
-    if (process.env.VUE_APP_MODE === "development") {
+    if (envHelper.dev()) {
         apiUrl =
-            <string>process.env.VUE_APP_API_URL === "/proxy_url"
-                ? `${process.env.VUE_APP_PROXY_URL}/api/app`
-                : `${process.env.VUE_APP_API_URL}/api/app`;
+            envHelper.get("VITE_APP_API_URL") === "/proxy_url"
+                ? `${envHelper.get("VITE_APP_PROXY_URL")}/api/app`
+                : `${envHelper.get("VITE_APP_API_URL")}/api/app`;
     } else {
         apiUrl = `${location.origin}/api/app`;
     }
@@ -26,7 +28,7 @@ export default function wxauth(): void {
     } else {
         backUrl += `&realhost=${location.host}`;
     }
-    const result = `${process.env.VUE_APP_WX_LOGIN}?backUrl=${backUrl}`;
+    const result = `${envHelper.get("VITE_APP_WX_LOGIN")}?backUrl=${backUrl}`;
     const timestamp = new Date().getTime();
     location.href = `${apiUrl}/channel/official_accounts/auth_code?back_url=${encodeURIComponent(
         result

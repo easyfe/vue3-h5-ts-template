@@ -1,5 +1,6 @@
 import root from "@/config/pinia/root";
-import env from "@/utils/tools/env";
+import envHelper from "@/utils/helper/env";
+import sleep from "@/utils/tools/sleep";
 import { createRouter, createWebHistory } from "vue-router";
 import routes from "./routes";
 
@@ -12,20 +13,26 @@ let timer = 0;
 let start = 0;
 
 //路由前置守卫
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
     document.title = <string>to.meta?.title || "";
     start = new Date().getTime();
     /** 资源没有加载完成的时候，给loading，为防止资源已加载完毕，加上延迟避免闪屏 */
     timer = window.setTimeout(() => {
-        if (env.dev()) {
+        if (envHelper.dev()) {
             console.warn(`执行路由定时器：${timer}`);
         }
         if (timer) {
             document.getElementById("index-loading")?.setAttribute("style", "display:auto");
         }
     }, 100);
-    if (from.meta?.keepAlive) {
-        const $content = document.querySelector(".frame-view-content");
+    if (from.meta?.keepAliveName) {
+        let domV = "";
+        if (from.meta?.scrollId) {
+            domV = `#${from.meta?.scrollId}`;
+        } else {
+            domV = `.frame-view-content`;
+        }
+        const $content = document.querySelector(domV);
         const scrollTop = $content?.scrollTop || 0;
         if (from.name) {
             root().SET_SCROLL({ name: from.name.toString(), value: scrollTop });
@@ -45,9 +52,9 @@ router.beforeEach((to, from, next) => {
             /** 执行前进操作 */
             root().SET_TRANSITION("slide-right");
         }
-        setTimeout(() => {
-            next();
-        }, 0 * 1000);
+        //延迟30毫秒，让路由动画生效
+        await sleep(30);
+        next();
     } catch (err) {
         next();
     }
@@ -55,11 +62,11 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach((to) => {
     root().SET_ISBACK(false);
-    if (env.dev()) {
+    if (envHelper.dev()) {
         console.warn(`路由耗时：${new Date().getTime() - start}，定时器：${timer}`);
     }
     if (timer) {
-        if (env.dev()) {
+        if (envHelper.dev()) {
             console.warn(`清除路由定时器：${timer}`);
         }
         clearTimeout(timer);
@@ -67,11 +74,19 @@ router.afterEach((to) => {
     }
     document.getElementById("index-loading")?.setAttribute("style", "display:none");
     root().SET_SHOWBACK(to.meta?.isTabbar !== true && to.meta?.showBack !== false);
-    if (to.meta?.keepAlive) {
-        const $content = document.querySelector(".frame-view-content");
-        if ($content && to.name) {
-            $content.scrollTop = root().scrollTop[to.name.toString()] || 0;
+    if (to.meta?.keepAliveName) {
+        let domV = "";
+        if (to.meta?.scrollId) {
+            domV = `#${to.meta?.scrollId}`;
+        } else {
+            domV = `.frame-view-content`;
         }
+        nextTick(() => {
+            const $content = document.querySelector(domV);
+            if ($content && to.name) {
+                $content.scrollTop = root().scrollTop[to.name.toString()] || 0;
+            }
+        });
     }
 });
 

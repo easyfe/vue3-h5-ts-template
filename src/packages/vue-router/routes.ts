@@ -6,7 +6,7 @@
  */
 import { RouteRecordRaw } from "vue-router";
 import baseRouter from "./base";
-import env from "@/utils/tools/env";
+import envHelper from "@/utils/helper/env";
 
 const modulesFiles = import.meta.globEager("/src/config/router/*.ts");
 const modules: any = {};
@@ -22,7 +22,7 @@ for (const key in modules) {
     }
 }
 
-if (modules?.dev && env.dev()) {
+if (modules?.dev && envHelper.dev()) {
     routers.push(...modules.dev);
 }
 

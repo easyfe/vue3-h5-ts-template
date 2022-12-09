@@ -1,14 +1,15 @@
-import { RouteConfig } from "@/types";
+import { RouteConfig } from "types";
 
 const routers: RouteConfig[] = [
     {
         path: "/dev",
         name: "dev",
         meta: {
-            keepAlive: false,
+            keepAliveName: "KEEP_DEV",
+            scrollId: "KEEP_DEV",
             title: "开发者工具"
         },
-        component: (): any => import(/* webpackChunkName: "modules/dev"*/ "@/views/dev/index.vue")
+        component: (): any => import("@/views/dev/index.vue")
     },
     {
         path: "/dev/visible",
@@ -16,7 +17,7 @@ const routers: RouteConfig[] = [
         meta: {
             title: "页面显示监听"
         },
-        component: (): any => import(/* webpackChunkName: "modules/dev"*/ "@/views/dev/visible/index.vue")
+        component: (): any => import("@/views/dev/visible/index.vue")
     },
     {
         path: "/dev/list",
@@ -24,7 +25,7 @@ const routers: RouteConfig[] = [
         meta: {
             title: "数据流式加载"
         },
-        component: (): any => import(/* webpackChunkName: "modules/dev"*/ "@/views/dev/list/index.vue")
+        component: (): any => import("@/views/dev/list/index.vue")
     },
     {
         path: "/dev/float",
@@ -32,7 +33,7 @@ const routers: RouteConfig[] = [
         meta: {
             title: "浮点运算"
         },
-        component: (): any => import(/* webpackChunkName: "modules/dev"*/ "@/views/dev/float/index.vue")
+        component: (): any => import("@/views/dev/float/index.vue")
     },
     {
         path: "/dev/loading",
@@ -40,7 +41,7 @@ const routers: RouteConfig[] = [
         meta: {
             title: "局部加载动画"
         },
-        component: (): any => import(/* webpackChunkName: "modules/dev"*/ "@/views/dev/loading/index.vue")
+        component: (): any => import("@/views/dev/loading/index.vue")
     },
     {
         path: "/dev/progress",
@@ -48,7 +49,7 @@ const routers: RouteConfig[] = [
         meta: {
             title: "进度条"
         },
-        component: (): any => import(/* webpackChunkName: "modules/dev"*/ "@/views/dev/progress/index.vue")
+        component: (): any => import("@/views/dev/progress/index.vue")
     },
     {
         path: "/dev/table",
@@ -56,7 +57,7 @@ const routers: RouteConfig[] = [
         meta: {
             title: "表格"
         },
-        component: (): any => import(/* webpackChunkName: "modules/dev"*/ "@/views/dev/table/index.vue")
+        component: (): any => import("@/views/dev/table/index.vue")
     },
     {
         path: "/dev/collapse",
@@ -64,7 +65,7 @@ const routers: RouteConfig[] = [
         meta: {
             title: "折叠面板"
         },
-        component: (): any => import(/* webpackChunkName: "modules/dev"*/ "@/views/dev/collapse/index.vue")
+        component: (): any => import("@/views/dev/collapse/index.vue")
     },
     {
         path: "/dev/cell",
@@ -72,7 +73,7 @@ const routers: RouteConfig[] = [
         meta: {
             title: "基础单元格"
         },
-        component: (): any => import(/* webpackChunkName: "modules/dev"*/ "@/views/dev/cell/index.vue")
+        component: (): any => import("@/views/dev/cell/index.vue")
     },
     {
         path: "/dev/copy",
@@ -80,7 +81,7 @@ const routers: RouteConfig[] = [
         meta: {
             title: "全局指令之复制"
         },
-        component: (): any => import(/* webpackChunkName: "modules/dev"*/ "@/views/dev/copy/index.vue")
+        component: (): any => import("@/views/dev/copy/index.vue")
     },
     {
         path: "/dev/form",
@@ -88,7 +89,7 @@ const routers: RouteConfig[] = [
         meta: {
             title: "form表单"
         },
-        component: (): any => import(/* webpackChunkName: "modules/dev"*/ "@/views/dev/form/index.vue")
+        component: (): any => import("@/views/dev/form/index.vue")
     },
     {
         path: "/dev/svg",
@@ -96,7 +97,7 @@ const routers: RouteConfig[] = [
         meta: {
             title: "svg"
         },
-        component: (): any => import(/* webpackChunkName: "modules/dev"*/ "@/views/dev/svg/index.vue")
+        component: (): any => import("@/views/dev/svg/index.vue")
     },
     {
         path: "/dev/rich-text",
@@ -104,7 +105,7 @@ const routers: RouteConfig[] = [
         meta: {
             title: "rich-text"
         },
-        component: (): any => import(/* webpackChunkName: "modules/dev"*/ "@/views/dev/rich-text/index.vue")
+        component: (): any => import("@/views/dev/rich-text/index.vue")
     },
     {
         path: "/dev/geolocation",
@@ -112,7 +113,7 @@ const routers: RouteConfig[] = [
         meta: {
             title: "geolocation"
         },
-        component: (): any => import(/* webpackChunkName: "modules/dev"*/ "@/views/dev/geolocation/index.vue")
+        component: (): any => import("@/views/dev/geolocation/index.vue")
     },
     {
         path: "/dev/echarts",
@@ -120,7 +121,7 @@ const routers: RouteConfig[] = [
         meta: {
             title: "Echarts图表"
         },
-        component: (): any => import(/* webpackChunkName: "modules/dev"*/ "@/views/dev/echarts/index.vue")
+        component: (): any => import("@/views/dev/echarts/index.vue")
     },
     {
         path: "/dev/drag",
@@ -128,7 +129,7 @@ const routers: RouteConfig[] = [
         meta: {
             title: "drag拖拽"
         },
-        component: (): any => import(/* webpackChunkName: "modules/dev"*/ "@/views/dev/drag/index.vue")
+        component: (): any => import("@/views/dev/drag/index.vue")
     },
     {
         path: "/dev/format-money",
@@ -136,7 +137,7 @@ const routers: RouteConfig[] = [
         meta: {
             title: "金额格式化"
         },
-        component: (): any => import(/* webpackChunkName: "modules/dev"*/ "@/views/dev/format-money/index.vue")
+        component: (): any => import("@/views/dev/format-money/index.vue")
     },
     {
         path: "/dev/tabs",
@@ -144,7 +145,7 @@ const routers: RouteConfig[] = [
         meta: {
             title: "标签页"
         },
-        component: (): any => import(/* webpackChunkName: "modules/dev"*/ "@/views/dev/tabs/index.vue")
+        component: (): any => import("@/views/dev/tabs/index.vue")
     },
     {
         path: "/dev/card",
@@ -152,7 +153,7 @@ const routers: RouteConfig[] = [
         meta: {
             title: "商品卡片"
         },
-        component: (): any => import(/* webpackChunkName: "modules/dev"*/ "@/views/dev/card/index.vue")
+        component: (): any => import("@/views/dev/card/index.vue")
     },
     {
         path: "/dev/scan",
@@ -160,7 +161,7 @@ const routers: RouteConfig[] = [
         meta: {
             title: "原生扫码"
         },
-        component: (): any => import(/* webpackChunkName: "modules/dev"*/ "@/views/dev/scan/index.vue")
+        component: (): any => import("@/views/dev/scan/index.vue")
     },
     {
         path: "/dev/theme",
@@ -168,7 +169,7 @@ const routers: RouteConfig[] = [
         meta: {
             title: "原生扫码"
         },
-        component: (): any => import(/* webpackChunkName: "modules/dev"*/ "@/views/dev/theme/index.vue")
+        component: (): any => import("@/views/dev/theme/index.vue")
     },
     {
         path: "/dev/skeleton",
@@ -176,7 +177,7 @@ const routers: RouteConfig[] = [
         meta: {
             title: "骨架屏"
         },
-        component: (): any => import(/* webpackChunkName: "modules/dev"*/ "@/views/dev/skeleton/index.vue")
+        component: (): any => import("@/views/dev/skeleton/index.vue")
     }
 ];
 

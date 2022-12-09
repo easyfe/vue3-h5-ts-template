@@ -1,6 +1,6 @@
 <template>
     <frame-view>
-        <div class="content">
+        <div id="KEEP_DEV" class="content">
             <div class="demo-nav">
                 <h1>开发者功能预览</h1>
             </div>

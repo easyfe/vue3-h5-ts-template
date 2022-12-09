@@ -1,7 +1,7 @@
-import { _TouchEvent } from "@/types";
+import { _TouchEvent } from "types";
 import root from "@/config/pinia/root";
 import VConsole from "vconsole";
-import env from "@/utils/tools/env";
+import envHelper from "@/utils/helper/env";
 
 /** 监听浏览器后退事件 */
 const handleListenBack = (): void => {
@@ -32,6 +32,6 @@ const disableTouchMove = (): void => {
 handleListenBack();
 disableTouchMove();
 
-if (!env.prod()) {
+if (!envHelper.prod()) {
     new VConsole();
 }

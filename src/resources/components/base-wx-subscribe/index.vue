@@ -14,11 +14,12 @@
 </template>
 
 <script lang="ts" setup name="BaseWxSubscribe">
-import env from "@/utils/tools/env";
+import envHelper from "@/utils/helper/env";
 
 const props = defineProps({
     /** 模板ID */
     template: {
+        type: String,
         default: "",
         required: true
     },
@@ -34,7 +35,7 @@ const style = computed(() => {
         position: "absolute",
         top: 0,
         left: 0,
-        opacity: env.dev() ? 0.8 : 0
+        opacity: envHelper.dev() ? 0.8 : 0
     };
 });
 </script>

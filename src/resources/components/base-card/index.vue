@@ -11,7 +11,7 @@
 <script lang="ts" setup>
 import cell from "@/resources/components/base-card/components/cell.vue";
 import wrapper from "@/resources/components/base-card/components/wrapper.vue";
-import { CardProp } from "@/types";
+import { CardProp } from "types";
 
 defineProps({
     config: {

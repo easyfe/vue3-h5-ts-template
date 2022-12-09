@@ -1,27 +1,27 @@
 <template>
     <div class="root" @touchmove="handleTouch">
-        <router-view v-if="route.meta.keepAlive" v-slot="{ Component }">
-            <transition :name="route.meta.keepAlive ? transitionName : ''">
-                <keep-alive>
-                    <component :is="Component" />
+        <router-view v-slot="{ Component }">
+            <transition :name="transitionName">
+                <keep-alive :include="keepList">
+                    <component :is="Component" :key="route.name" />
                 </keep-alive>
-            </transition>
-        </router-view>
-        <router-view v-else v-slot="{ Component }">
-            <transition :name="route.meta.keepAlive ? '' : transitionName">
-                <component :is="Component" />
             </transition>
         </router-view>
     </div>
 </template>
 <script lang="ts" setup>
 import { Toast, Notify } from "vant";
-import { _TouchEvent } from "@/types";
+import { _TouchEvent } from "types";
 import { clearRequest } from "@/packages/request";
 import root from "@/config/pinia/root";
 const route = useRoute();
+//动画效果
 const transitionName = computed(() => {
     return root().transitionName;
+});
+//需要缓存的页面name
+const keepList = computed(() => {
+    return root().keepaliveList;
 });
 /** 允许页面内部body的touchmove事件 */
 const handleTouch = (e: _TouchEvent): void => {

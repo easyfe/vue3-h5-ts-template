@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" name="BaseWxWeapp" setup>
-import env from "@/utils/tools/env";
+import envHelper from "@/utils/helper/env";
 
 const props = defineProps({
     /** 小程序跳转路径，例：pages/home/index */
@@ -41,7 +41,7 @@ const style = computed(() => {
         position: "absolute",
         top: 0,
         left: 0,
-        opacity: env.dev() ? 0.8 : 0
+        opacity: envHelper.dev() ? 0.8 : 0
     };
 });
 </script>

@@ -13,7 +13,7 @@
 
 <script setup lang="ts" name="BaseMap">
 import session from "@/utils/tools/session";
-import { GeoLocationType } from "@/types";
+import { GeoLocationType } from "types";
 
 const emits = defineEmits<{
     (e: "confirm", res: GeoLocationType): void;

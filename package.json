@@ -20,6 +20,7 @@
         "big.js": "6.2.0",
         "dayjs": "1.11.3",
         "echarts": "^5.3.3",
+        "hex-to-css-filter": "^5.4.0",
         "lodash-es": "4.17.21",
         "nanoid": "4.0.0",
         "numeral": "2.0.6",

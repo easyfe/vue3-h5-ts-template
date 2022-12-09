@@ -1,8 +1,13 @@
+import { RouteConfig } from "types";
 import { defineStore } from "pinia";
 
 export default defineStore({
     id: "root",
     state: () => ({
+        //路由数组
+        routeList: <RouteConfig[]>[],
+        // 缓存页面name列表
+        keepaliveList: <string[]>[],
         // 路由是否后退
         isBack: <null | boolean>null,
         // 微信sdk可用状态

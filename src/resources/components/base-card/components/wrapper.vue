@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { CardProp } from "@/types";
+import { CardProp } from "types";
 
 defineProps({
     cellConfig: {
