@@ -43,5 +43,6 @@ watch(
     background-color: #f4f5f6;
     height: 100%;
     overflow-y: auto;
+    font-size: 14px;
 }
 </style>
