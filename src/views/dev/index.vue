@@ -19,7 +19,7 @@
         </div>
     </frame-view>
 </template>
-<script lang="ts" setup>
+<script lang="ts" setup name="KEEP_DEV">
 const list = reactive([
     {
         title: "全局样式",
@@ -131,6 +131,9 @@ const list = reactive([
         ]
     }
 ]);
+onActivated(() => {
+    console.log("========onActivated============");
+});
 </script>
 <style lang="scss" scoped>
 .content {

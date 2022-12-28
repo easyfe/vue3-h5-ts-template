@@ -5,7 +5,7 @@
 import { getLocalByLatitude } from "@/config/apis/common";
 import session from "@/utils/tools/session";
 import { GeoLocationType } from "types";
-export default function geoLocation(): Promise<GeoLocationType> {
+export function navGeoLocation(timeout = 10): Promise<GeoLocationType> {
     return new Promise((resolve, reject) => {
         const tmpGeoLocation = session.getGeoLocation();
         if (tmpGeoLocation) {
@@ -53,11 +53,61 @@ export default function geoLocation(): Promise<GeoLocationType> {
                     break;
             }
         };
-        // const PositionOptions = {
-        //     enableHighAccuracy: true,
-        //     timeout: 5000,
-        //     maximumAge: 3000
-        // };
-        navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+        const PositionOptions = {
+            enableHighAccuracy: true,
+            timeout: timeout * 1000,
+            maximumAge: 3000
+        };
+        navigator.geolocation.getCurrentPosition(successCallback, errorCallback, PositionOptions);
+    });
+}
+type TxGeolcoationDetail = {
+    accuracy: number;
+    adcode: number;
+    addr: string;
+    city: string;
+    district: string;
+    lat: number;
+    lng: number;
+    module: string;
+    nation: string;
+    province: string;
+    type: string;
+};
+
+const txGeoInstance = new qq.maps.Geolocation();
+declare let qq: any;
+/**
+ * 获取腾讯定位
+ * @param timeout 超时设置，单位秒
+ */
+export function txGeolocation(timeout = 10): Promise<TxGeolcoationDetail> {
+    return new Promise((resolve, reject) => {
+        txGeoInstance.getLocation(
+            // 获取成功回调
+            function (position: TxGeolcoationDetail) {
+                console.log("精准定位成功", position);
+                resolve(position);
+            },
+            // 获取失败回调
+            function () {
+                txGeoInstance.getIpLocation(
+                    // 获取成功回调
+                    function (position: TxGeolcoationDetail) {
+                        console.log("IP定位成功", position);
+                        resolve(position);
+                    },
+                    // 获取失败回调
+                    function (err: any) {
+                        console.error("尝试通过IP地址获取位置信息失败", err);
+                        reject(err);
+                    }
+                );
+            },
+            {
+                timeout,
+                failTipFlag: true
+            }
+        );
     });
 }

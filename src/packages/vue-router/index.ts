@@ -1,6 +1,7 @@
 import root from "@/config/pinia/root";
 import envHelper from "@/utils/helper/env";
 import sleep from "@/utils/tools/sleep";
+import { RouteConfig } from "types";
 import { createRouter, createWebHistory } from "vue-router";
 import routes from "./routes";
 
@@ -12,8 +13,35 @@ const router = createRouter({
 let timer = 0;
 let start = 0;
 
+/**
+ * 递归处理路由
+ */
+const initRoute = (): void => {
+    const setRoutes = (tmpRoutes: RouteConfig[]): { routeList: RouteConfig[]; keepAliveName: string[] } => {
+        let cloneData: any = null;
+        cloneData = [...tmpRoutes];
+        const keepAliveName: string[] = [];
+        for (const key in tmpRoutes) {
+            if (tmpRoutes[key].meta?.keepAliveName) {
+                keepAliveName.push(tmpRoutes[key].meta?.keepAliveName as string);
+            }
+            if (tmpRoutes[key].children?.length) {
+                cloneData[key].children = setRoutes(tmpRoutes[key].children || []);
+            }
+        }
+        return { routeList: cloneData, keepAliveName };
+    };
+    const res = setRoutes(routes as unknown as RouteConfig[]);
+    root().routeList = res.routeList;
+    root().keepaliveList = res.keepAliveName;
+};
+
 //路由前置守卫
 router.beforeEach(async (to, from, next) => {
+    //初始化路由
+    if (!root().routeList.length) {
+        initRoute();
+    }
     document.title = <string>to.meta?.title || "";
     start = new Date().getTime();
     /** 资源没有加载完成的时候，给loading，为防止资源已加载完毕，加上延迟避免闪屏 */
