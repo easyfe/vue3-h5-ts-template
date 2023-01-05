@@ -38,7 +38,9 @@ class NativeBridge {
                 params = {};
             }
             const functionName = `${name}${new Date().getTime()}`;
-            params.callback = functionName;
+            if (typeof params === "object") {
+                params.callback = functionName;
+            }
             if (uaHelper.isAndroidApp || uaHelper.isIosApp) {
                 if (callback) {
                     // 注册回调
@@ -55,14 +57,21 @@ class NativeBridge {
                     (window as any).syy_app_h5[name](JSON.stringify(params));
                 } else if (uaHelper.isIosApp) {
                     // ios 将方法名当作参数传递
-                    params.key = name;
+                    if (typeof params === "string") {
+                        params = {};
+                        params.key = name;
+                    } else {
+                        params.key = name;
+                    }
                     (window as any).webkit.messageHandlers.syy_app_h5.postMessage(params);
                 }
             } else {
-                console.warn("此功能需要访问 APP 才能使用");
+                console.error("此功能需要访问 APP 才能使用：", name);
+                throw new Error(`"此功能需要访问 APP 才能使用：", ${name}`);
             }
         } catch (e) {
             console.error(`调用${name}方法失败,参数${JSON.stringify(params)}`, e);
+            throw new Error(`调用${name}方法失败,参数${JSON.stringify(params)},${e}`);
         }
     }
     /**

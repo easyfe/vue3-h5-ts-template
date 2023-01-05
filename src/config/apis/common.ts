@@ -89,3 +89,27 @@ export interface Regions {
     //省ID
     province_id: number;
 }
+
+/**
+ * 腾讯坐标转换
+ * @param params
+ * @returns
+ */
+export function translateGeoLocation(params: {
+    key?: string;
+    //纬度前，经度后，纬度和经度之间用",“分隔，每组坐标之间使用”;"分隔；
+    locations: string;
+    //输入的locations的坐标类型，可选值：1 GPS坐标 2 sogou经纬度 3 baidu经纬度 4 mapbar经纬度 6 sogou墨卡托
+    type: number;
+}): Promise<{
+    //0 成功，其他失败，详见：https://lbs.qq.com/service/webService/webServiceGuide/status
+    status: number;
+    //坐标数组
+    locations: { lng: number; lat: number }[];
+}> {
+    params.key = "GQ7BZ-VAXWX-R7R4H-T4VL6-XNL73-BXBWW";
+    return request({
+        url: "https://apis.map.qq.com/ws/coord/v1/translate",
+        params
+    });
+}

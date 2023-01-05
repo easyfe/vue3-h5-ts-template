@@ -21,10 +21,15 @@ const service = new SyyRequest({
             return Promise.resolve(config);
         },
         response: (response): Promise<any> => {
-            response.data.message = response.data.msg;
+            if (response.config.url?.includes("apis.map.qq.com")) {
+                response.data.data = lodash.cloneDeep(response.data);
+                return Promise.resolve(response);
+            }
             if (response.config.url?.includes("jsonplaceholder.typicode.com")) {
                 response.data.data = lodash.cloneDeep(response.data);
+                return Promise.resolve(response);
             }
+            response.data.message = response.data.msg;
             return Promise.resolve(response);
         },
         responseError: (errorResponse): Promise<any> => {

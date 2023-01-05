@@ -1,5 +1,7 @@
 import root from "@/config/pinia/root";
 import envHelper from "@/utils/helper/env";
+import nativeHelper from "@/utils/helper/native";
+import uaHelper from "@/utils/helper/ua";
 import sleep from "@/utils/tools/sleep";
 import { RouteConfig } from "types";
 import { createRouter, createWebHistory } from "vue-router";
@@ -41,6 +43,10 @@ router.beforeEach(async (to, from, next) => {
     //初始化路由
     if (!root().routeList.length) {
         initRoute();
+    }
+    if (uaHelper.inApp && root().safeAreaTop === null) {
+        const safeAreaTop = await nativeHelper.getAppSafeTop();
+        root().safeAreaTop = (safeAreaTop || 0) / 2;
     }
     document.title = <string>to.meta?.title || "";
     start = new Date().getTime();

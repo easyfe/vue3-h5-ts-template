@@ -1,43 +1,64 @@
 <template>
-    <div
-        class="frame-view top-safe-area"
-        :class="[showTabbar ? '' : 'bottom-safe-area']"
-        :style="{ backgroundColor: backgroundColor }"
-    >
-        <!-- 兼容安卓头部用的空标签  -->
-        <div :style="{ height: `${getSafeAreaTop}px`, width: '100vw' }"></div>
-        <!-- 头部导航  -->
-        <div v-if="showNavbar" class="frame-view-header">
-            <div class="frame-view-header__left"><slot name="nav-left"></slot></div>
-            <div class="frame-view-header__title">{{ title }}</div>
-            <div class="frame-view-header__left"><slot name="nav-right"></slot></div>
+    <van-config-provider :theme-vars="props.themeVars">
+        <div
+            class="frame-view"
+            :class="[getSafeAreaTop ? '' : 'top-safe-area', showTabbar ? '' : 'bottom-safe-area']"
+            :style="computedFrameStyle"
+        >
+            <!-- 兼容APP头部用的空标签  -->
+            <div
+                v-if="!props.immersion"
+                :style="{ height: `${getSafeAreaTop}px`, width: '100vw', zIndex: 3000, backgroundColor: '#fff' }"
+            ></div>
+            <!-- 头部导航  -->
+            <van-nav-bar v-if="showNavbar" :title="navTitle" left-arrow @click-left="onClickLeft">
+                <template v-if="$slots['nav-right']" #right>
+                    <slot name="nav-right"></slot>
+                </template>
+                <template v-if="$slots['nav-title']" #title>
+                    <slot name="nav-title"></slot>
+                </template>
+                <template v-if="$slots['nav-left']" #left>
+                    <slot name="nav-left"></slot>
+                </template>
+                <!-- <template v-for="(_, slotName) in $slots" #[slotName]>
+                <slot :name="slotName" />
+            </template> -->
+            </van-nav-bar>
+            <!-- 内容区域 -->
+            <div class="frame-view-content" @scroll="onScroll">
+                <template v-if="!error">
+                    <base-loading :loading="loading" class="frame-view-loading">
+                        <slot></slot>
+                    </base-loading>
+                    <!-- 底部插槽   :class="[footerBottom ? 'base-footer-bottom' : '']" -->
+                    <div v-if="$slots.footer" class="base-footer" :style="bottomStyle">
+                        <slot name="footer"></slot>
+                    </div>
+                </template>
+                <!-- 错误状态 -->
+                <template v-else>
+                    <base-empty :image="image" :type="type" :desc="desc"></base-empty>
+                </template>
+            </div>
+            <!-- 底部tabbar -->
+            <frame-tabbar v-if="showTabbar" class="frame-view-tabbar"></frame-tabbar>
         </div>
-        <!-- 内容区域 -->
-        <div class="frame-view-content">
-            <template v-if="!error">
-                <base-loading :loading="loading" class="frame-view-loading">
-                    <slot></slot>
-                </base-loading>
-                <!-- 底部插槽   :class="[footerBottom ? 'base-footer-bottom' : '']" -->
-                <div v-if="$slots.footer" class="base-footer" :style="bottomStyle">
-                    <slot name="footer"></slot>
-                </div>
-            </template>
-            <!-- 错误状态 -->
-            <template v-else>
-                <base-empty :image="image" :type="type" :desc="desc"></base-empty>
-            </template>
-        </div>
-        <!-- 底部tabbar -->
-        <frame-tabbar v-if="showTabbar" class="frame-view-tabbar"></frame-tabbar>
-    </div>
+    </van-config-provider>
 </template>
 
 <script lang="ts" setup name="FrameView">
 import uaHelper from "@/utils/helper/ua";
 import getRealPx from "@/utils/tools/get-realpx";
+import back from "@/utils/tools/back";
+import root from "@/config/pinia/root";
 
 const props = defineProps({
+    /** 沉浸式 */
+    immersion: {
+        type: Boolean,
+        default: false
+    },
     /** 加载状态 */
     loading: {
         type: Boolean,
@@ -78,22 +99,71 @@ const props = defineProps({
         type: String,
         default: "#f4f5f6"
     },
+    /** 页面背景图 */
+    backgroundImage: {
+        type: String,
+        default: ""
+    },
     /** 底部绝对定位值*/
     footerBottom: {
         type: Number,
         default: 0
+    },
+    /** 是否展示navbar */
+    showNav: {
+        type: Boolean || undefined,
+        default: undefined
+    },
+    /** 自定义返回 */
+    customBack: {
+        type: Function || undefined,
+        default: undefined
+    },
+    /** 主题配置 */
+    themeVars: {
+        type: Object,
+        default: () => ({})
     }
 });
 
+const emits = defineEmits<{
+    (e: "scroll", data: any): void;
+}>();
+//navbar标题
+const navTitle = computed(() => {
+    return props.title || (useRoute().meta?.title as string);
+});
+//计算frame-view的内联样式
+const computedFrameStyle = computed(() => {
+    const map: Record<string, any> = {
+        backgroundColor: props.backgroundColor,
+        backgroundImage: props.backgroundImage
+    };
+    // if (uaHelper.isAndroidApp) {
+    //     map.paddingTop = `${getSafeAreaTop.value}px`;
+    // }
+    return map;
+});
 /** 获取顶部安全距离，针对APP场景*/
 const getSafeAreaTop = computed(() => {
     if (uaHelper.inApp) {
-        return 100;
+        return root().safeAreaTop || 0;
     }
     return 0;
 });
 /** 计算是否需要显示navbar */
-const showNavbar = ref(uaHelper.inApp);
+const showNavbar = computed(() => {
+    if (props.showNav !== undefined) {
+        return props.showNav;
+    }
+    if (uaHelper.isWemp) {
+        return false;
+    }
+    if (uaHelper.inApp) {
+        return true;
+    }
+    return false;
+});
 /** 计算是否需要显示tabbar */
 const showTabbar = computed(() => {
     if (uaHelper.inApp) {
@@ -104,8 +174,21 @@ const showTabbar = computed(() => {
 const bottomStyle = reactive({
     bottom: getRealPx(props.footerBottom || 0) + "px"
 });
+const onClickLeft = (): void => {
+    if (props.customBack) {
+        props.customBack();
+    } else {
+        back();
+    }
+};
+const onScroll = (e: any): void => {
+    emits("scroll", e);
+};
 </script>
 <style lang="scss" scoped>
+.van-config-provider {
+    height: 100%;
+}
 .frame-view {
     display: flex;
     flex-direction: column;
@@ -128,7 +211,7 @@ const bottomStyle = reactive({
         width: 100%;
         // -webkit-overflow-scrolling: touch;
         height: 100%;
-        overflow-y: scroll;
+        overflow-y: auto;
         overflow-x: hidden;
         ::-webkit-scrollbar {
             display: none;

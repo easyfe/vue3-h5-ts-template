@@ -19,7 +19,9 @@ export default defineStore({
         // 是否隐藏返回按钮
         showBack: false,
         // 滑动动画
-        transitionName: ""
+        transitionName: "",
+        //顶部安全区高度
+        safeAreaTop: <null | number>null
     }),
     actions: {
         SET_WXSDK(res: boolean): void {

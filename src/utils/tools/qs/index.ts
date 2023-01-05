@@ -19,6 +19,9 @@ const QS = {
             return v;
         }
         return JSON.stringify(v);
+    },
+    stringify(params: Record<string, any>) {
+        return qs.stringify(params);
     }
 };
 
