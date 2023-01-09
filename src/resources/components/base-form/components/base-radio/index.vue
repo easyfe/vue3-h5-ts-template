@@ -1,5 +1,5 @@
 <template>
-    <van-field class="base-radio" :placeholder="placeholder" v-bind="$attrs" v-on="$attrs">
+    <van-field class="base-radio" v-bind="$attrs" v-on="$attrs">
         <template #input>
             <van-radio-group v-model="model" direction="horizontal">
                 <van-radio v-for="item in options" :key="item.value" :name="item.value">{{ item.label }}</van-radio>
@@ -9,22 +9,13 @@
 </template>
 
 <script setup lang="ts" name="BaseRadio">
-const props = defineProps({
-    modelValue: {
-        type: [String, Number],
-        default: ""
-    },
-    placeholder: {
-        type: String,
-        default: "请输入"
-    },
-    options: {
-        type: Array,
-        default: () => {
-            return [];
-        }
-    }
-});
+const props = withDefaults(
+    defineProps<{
+        modelValue: any[];
+        options: any[];
+    }>(),
+    {}
+);
 const emits = defineEmits<{
     (e: "update:modelValue", data: any): void;
 }>();

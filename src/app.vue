@@ -10,12 +10,12 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { Toast, Notify } from "vant";
+import { closeNotify, closeToast } from "vant";
 import { _TouchEvent } from "types";
 import { clearRequest } from "@/packages/request";
 import root from "@/config/pinia/root";
 const route = useRoute();
-//动画效果
+//动画效果P
 const transitionName = computed(() => {
     return root().transitionName;
 });
@@ -33,8 +33,8 @@ watch(
         /**路由切换时，删除请求队列*/
         clearRequest();
         /** 路由切换的时候清除相关提示 */
-        Notify.clear();
-        Toast.clear();
+        closeToast();
+        closeNotify();
     }
 );
 </script>

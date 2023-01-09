@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts" name="BaseScan">
-import { Toast } from "vant";
+import { showToast } from "vant";
 import { BrowserMultiFormatReader } from "@zxing/library";
 const props = defineProps({
     modelValue: {
@@ -64,7 +64,7 @@ const openScan = async (): Promise<void> => {
         }
     } catch (error) {
         console.error(error);
-        Toast("未发现摄像头,请检查摄像头是否正常!");
+        showToast("未发现摄像头,请检查摄像头是否正常!");
         scanLoading.value = false;
         model.value = false;
     }
@@ -77,7 +77,7 @@ const decodeFromInputVideoFunc = (firstDeviceId: any): void => {
             emits("success", result.text.toString());
         }
         if (error && !error) {
-            Toast("识别失败,请重试!");
+            showToast("识别失败,请重试!");
             console.error(error);
         }
     });

@@ -22,16 +22,16 @@
                     <slot name="nav-left"></slot>
                 </template>
                 <!-- <template v-for="(_, slotName) in $slots" #[slotName]>
-                <slot :name="slotName" />
-            </template> -->
+                    <slot :name="slotName" />
+                </template> -->
             </van-nav-bar>
             <!-- 内容区域 -->
-            <div class="frame-view-content" @scroll="onScroll">
+            <div class="frame-view-content" :style="getContentStyle" @scroll="onScroll">
                 <template v-if="!error">
                     <base-loading :loading="loading" class="frame-view-loading">
                         <slot></slot>
                     </base-loading>
-                    <!-- 底部插槽   :class="[footerBottom ? 'base-footer-bottom' : '']" -->
+                    <!-- 底部插槽 -->
                     <div v-if="$slots.footer" class="base-footer" :style="bottomStyle">
                         <slot name="footer"></slot>
                     </div>
@@ -104,10 +104,15 @@ const props = defineProps({
         type: String,
         default: ""
     },
-    /** 底部绝对定位值*/
-    footerBottom: {
+    /** 底部插槽高度 */
+    footerHeight: {
         type: Number,
         default: 0
+    },
+    /** 底部插槽背景 */
+    footerColor: {
+        type: String,
+        default: ""
     },
     /** 是否展示navbar */
     showNav: {
@@ -171,8 +176,20 @@ const showTabbar = computed(() => {
     }
     return props.tabbar;
 });
+/** 计算content主体样式 */
+const getContentStyle = computed(() => {
+    if (props.footerHeight) {
+        return {
+            marginBottom: getRealPx(props.footerHeight) + "px"
+        };
+    }
+    return;
+});
+/** 底部样式 */
 const bottomStyle = reactive({
-    bottom: getRealPx(props.footerBottom || 0) + "px"
+    height: getRealPx(props.footerHeight || 0) + "px",
+    backgroundColor: props.footerColor || props.backgroundColor,
+    overflow: "hidden"
 });
 const onClickLeft = (): void => {
     if (props.customBack) {
@@ -228,17 +245,9 @@ const onScroll = (e: any): void => {
         position: fixed;
         bottom: 0;
         left: 0;
-        background-color: #fff;
         width: 100vw;
-        height: 100px;
-        font-size: 26px;
         padding-bottom: constant(safe-area-inset-bottom);
         padding-bottom: env(safe-area-inset-bottom);
-    }
-    .base-footer-bottom {
-        position: fixed;
-        bottom: 100px;
-        left: 0;
     }
 }
 .top-safe-area {

@@ -12,7 +12,7 @@
         </van-field>
         <van-action-sheet
             v-model:show="visible"
-            :actions="HandleOptions(options)"
+            :actions="HandleOptions(props.options)"
             cancel-text="取消"
             @select="select"
         />

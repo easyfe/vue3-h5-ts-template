@@ -1,14 +1,14 @@
-import { Toast } from "vant";
+import { closeToast, showLoadingToast, showToast } from "vant";
 let reqNum = 0;
 const loading = {
     showToast(message: string): void {
-        Toast({
+        showToast({
             message
         });
     },
     showLoading(): void {
         if (reqNum === 0) {
-            Toast.loading({
+            showLoadingToast({
                 duration: 0
             });
         }
@@ -24,7 +24,7 @@ const loading = {
         });
     },
     clearToast(): void {
-        Toast.clear();
+        closeToast();
     }
 };
 /** 关闭loading */

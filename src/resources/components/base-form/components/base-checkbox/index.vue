@@ -1,8 +1,8 @@
 <template>
-    <van-field class="base-checkbox" :placeholder="placeholder" v-bind="$attrs" v-on="$attrs">
+    <van-field class="base-checkbox" v-bind="$attrs" v-on="$attrs">
         <template #input>
-            <van-checkbox-group v-model="model" direction="horizontal">
-                <van-checkbox v-for="item in options" :key="item.value" :name="item.value" shape="square">
+            <van-checkbox-group v-model="model" v-bind="$attrs" direction="horizontal">
+                <van-checkbox v-for="item in props.options" :key="item.value" :name="item.value" shape="square">
                     {{ item.label }}
                 </van-checkbox>
             </van-checkbox-group>
@@ -11,24 +11,13 @@
 </template>
 
 <script setup lang="ts" name="BaseCheckbox">
-const props = defineProps({
-    modelValue: {
-        type: Array,
-        default: () => {
-            return [];
-        }
-    },
-    placeholder: {
-        type: String,
-        default: "请输入"
-    },
-    options: {
-        type: Array,
-        default: () => {
-            return [];
-        }
-    }
-});
+const props = withDefaults(
+    defineProps<{
+        modelValue: any[];
+        options: any[];
+    }>(),
+    {}
+);
 
 const emits = defineEmits<{
     (e: "update:modelValue", data: any): void;

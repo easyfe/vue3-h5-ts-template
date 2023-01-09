@@ -1,5 +1,5 @@
 <template>
-    <frame-view>
+    <frame-view :theme-vars="themeVars">
         <van-form>
             <div class="test">普通div</div>
             <van-field name="rate" label="评分">
@@ -13,7 +13,10 @@
                 </template>
             </van-field>
             <div style="margin: 16px">
-                <van-button round block type="primary" @click="change"> 切换主题 </van-button>
+                <van-button round block type="primary" @click="change"> 全局切换主题 </van-button>
+            </div>
+            <div style="margin: 16px">
+                <van-button round block type="success"> config-provider主题 </van-button>
             </div>
         </van-form>
     </frame-view>
@@ -22,6 +25,11 @@
 import theme from "@/utils/tools/theme";
 const rate = ref(4);
 const slider = ref(50);
+const themeVars = computed(() => {
+    return {
+        buttonSuccessBackgroundColor: "#242424"
+    };
+});
 const change = (): void => {
     console.log("当前主题色：", theme.getPrimary());
     const themeColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;

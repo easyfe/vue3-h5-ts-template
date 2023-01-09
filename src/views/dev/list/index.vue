@@ -17,7 +17,7 @@
 <script lang="ts" setup>
 import BaseList from "@/resources/components/base-list/index.vue";
 import { testList } from "./api";
-import { Toast } from "vant";
+import { showToast } from "vant";
 let list = ref([]);
 
 const handleChangeItem = (index: number, row: any): void => {
@@ -36,7 +36,7 @@ const req = computed(() => {
     };
 });
 onMounted(() => {
-    Toast("5秒后模拟参数刷新");
+    showToast("5秒后模拟参数刷新");
     setTimeout(() => {
         test.test = 100;
     }, 5000);

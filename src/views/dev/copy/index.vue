@@ -37,7 +37,7 @@
 
 <script lang="ts" setup>
 import handlerCopy from "@/utils/tools/copy";
-import { Dialog } from "vant";
+import { showDialog } from "vant";
 
 const mobile = ref("13649259704");
 
@@ -59,12 +59,12 @@ const onError = (e: string): void => {
 const copy = (): void => {
     handlerCopy(mobile.value)
         .then((res) => {
-            Dialog.alert({
+            showDialog({
                 message: res
             });
         })
         .catch((err) => {
-            Dialog.alert({
+            showDialog({
                 message: err
             });
         });

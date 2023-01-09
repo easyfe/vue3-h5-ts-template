@@ -6,7 +6,7 @@
  * @param {string} onError 【非必传】失败的回调，回调参数: {e}  注：默认使用vant Toast 轻提示,该方法里面可以自定义交互
  *  使用方法：v-copy="Options"
  */
-import { Toast } from "vant";
+import { showToast } from "vant";
 import { ObjectDirective } from "vue";
 import typeHelper from "@/utils/helper/type/index";
 import handlerCopy from "@/utils/tools/copy";
@@ -22,14 +22,14 @@ const CopyHookFunction: ObjectDirective = {
                     if (typeHelper.isFunction(onSuccess)) {
                         onSuccess(res);
                     } else {
-                        Toast(res);
+                        showToast(res);
                     }
                 })
                 .catch((err: any) => {
                     if (typeHelper.isFunction(onError)) {
                         onError(err);
                     } else {
-                        Toast(err);
+                        showToast(err);
                     }
                 });
         };

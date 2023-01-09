@@ -1,86 +1,59 @@
 <template>
-    <van-form ref="baseForm" class="base-form" v-bind="form">
-        <template v-for="(item, index) in formItems" :key="index">
-            <van-cell-group :border="false">
-                <template v-for="group in item.groups" :key="group.name">
-                    <base-input
-                        v-if="group.inputType === 'input'"
-                        v-model.trim="model[group.name]"
-                        v-bind="group"
-                    ></base-input>
-                    <base-input
-                        v-if="group.inputType === 'textarea'"
-                        v-model.trim="model[group.name]"
-                        type="textarea"
-                        v-bind="group"
-                    ></base-input>
-                    <base-action v-if="group.inputType === 'action'" v-model="model[group.name]" v-bind="group">
-                    </base-action>
-                    <base-datetime
-                        v-if="group.inputType === 'datetime'"
-                        v-model="model[group.name]"
-                        v-bind="group"
-                    ></base-datetime>
-                    <base-area v-if="group.inputType === 'area'" v-model="model[group.name]" v-bind="group"></base-area>
-                    <base-uploader v-if="group.inputType === 'uploader'" v-model="model[group.name]" v-bind="group">
-                        <!-- 通过默认插槽可以自定义上传区域的样式。 -->
-                        <template #uploader>
-                            <slot name="uploader"></slot>
-                        </template>
-                    </base-uploader>
-                    <base-checkbox
-                        v-if="group.inputType === 'checkbox'"
-                        v-model="model[group.name]"
-                        v-bind="group"
-                    ></base-checkbox>
-                    <base-radio
-                        v-if="group.inputType === 'radio'"
-                        v-model="model[group.name]"
-                        v-bind="group"
-                    ></base-radio>
-                    <base-switch
-                        v-if="group.inputType === 'switch'"
-                        v-model="model[group.name]"
-                        v-bind="group"
-                    ></base-switch>
-                    <template v-if="group.inputType === 'slot'">
-                        <slot :name="group.name" :form-item="group" :model="model"></slot>
-                    </template>
+    <van-form
+        ref="baseForm"
+        class="base-form"
+        v-bind="$attrs"
+        :label-align="props.labelAlign"
+        :input-align="props.inputAlign"
+        :error-message-align="props.errorMessageAlign"
+    >
+        <template v-for="group in props.config" :key="group.name">
+            <base-input v-if="group.inputType === 'input'" v-model.trim="model[group.name]" v-bind="group"></base-input>
+            <base-action v-if="group.inputType === 'action'" v-model="model[group.name]" v-bind="group"> </base-action>
+            <base-date v-if="group.inputType === 'datetime'" v-model="model[group.name]" v-bind="group"></base-date>
+            <base-area v-if="group.inputType === 'area'" v-model="model[group.name]" v-bind="group"></base-area>
+            <base-uploader v-if="group.inputType === 'uploader'" v-model="model[group.name]" v-bind="group">
+                <!-- 通过默认插槽可以自定义上传区域的样式。 -->
+                <template #uploader>
+                    <slot name="uploader"></slot>
                 </template>
-            </van-cell-group>
+            </base-uploader>
+            <base-checkbox
+                v-if="group.inputType === 'checkbox'"
+                v-model="model[group.name]"
+                :options="group.options"
+                v-bind="group"
+            ></base-checkbox>
+            <base-radio
+                v-if="group.inputType === 'radio'"
+                v-model="model[group.name]"
+                :options="group.options"
+                v-bind="group"
+            ></base-radio>
+            <base-switch v-if="group.inputType === 'switch'" v-model="model[group.name]" v-bind="group"></base-switch>
+            <template v-if="group.inputType === 'slot'">
+                <slot :name="group.name"></slot>
+            </template>
         </template>
     </van-form>
 </template>
 
 <script setup lang="ts" name="BaseForm">
 import type { FormInstance } from "vant";
-const props = defineProps({
-    modelValue: {
-        type: Object,
-        required: true,
-        default: () => {
-            return {};
-        }
-    },
-    // form配置
-    form: {
-        type: Object,
-        default: () => {
-            return {
-                labelAlign: "left", //表单项 label 对齐方式，可选值为 left center right
-                inputAlign: "right", //输入框对齐方式，可选值为left center right
-                errorMessageAlign: "right" //错误提示文案对齐方式，可选值为left center right
-            };
-        }
-    },
-    // form-item配置
-    formItems: {
-        type: Array,
-        default: () => {
-            return [];
-        }
+const props = withDefaults(
+    defineProps<{
+        config: Record<string, any>[];
+        modelValue: any;
+        labelAlign?: "center" | "left";
+        inputAlign?: "center" | "right";
+        errorMessageAlign?: "center" | "right";
+    }>(),
+    {
+        labelAlign: "left",
+        inputAlign: "right",
+        errorMessageAlign: "right"
     }
-});
+);
 
 const emits = defineEmits<{
     (e: "update:modelValue", value: any): void;

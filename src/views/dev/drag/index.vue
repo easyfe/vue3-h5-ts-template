@@ -6,10 +6,10 @@
     </frame-view>
 </template>
 <script lang="ts" setup>
-import { Toast } from "vant";
+import { showToast } from "vant";
 
 const handleClick = (): void => {
-    Toast("触发点击事件");
+    showToast("触发点击事件");
 };
 </script>
 <style lang="scss" scoped>

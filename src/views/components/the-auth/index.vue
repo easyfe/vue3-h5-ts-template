@@ -6,7 +6,7 @@
 
 <script setup lang="ts" name="TheAuth">
 import storage from "@/utils/tools/storage";
-import { Toast } from "vant";
+import { showToast } from "vant";
 
 const props = defineProps({
     /** 登录鉴权 */
@@ -30,7 +30,7 @@ const handleClick = (): void => {
 /** 检查登录 */
 const handleCheckLogin = (): boolean => {
     if (!storage.getToken()) {
-        Toast("请登录");
+        showToast("请登录");
         return false;
     }
     return true;

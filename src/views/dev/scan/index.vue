@@ -5,10 +5,10 @@
     </frame-view>
 </template>
 <script setup lang="ts">
-import { Toast } from "vant";
+import { showToast } from "vant";
 
 let show = ref(false);
 const onSuccess = (val: string): void => {
-    Toast(val);
+    showToast(val);
 };
 </script>

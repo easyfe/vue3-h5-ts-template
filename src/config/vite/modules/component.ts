@@ -11,7 +11,7 @@ export const AutoRegistryComponents = (): Plugin => {
         // dirs 指定组件所在位置，默认为 src/components
         dirs: ["src/resources/components", "src/layout", "src/views/components"],
         // 配置需要将哪些后缀类型的文件进行自动按需引入
-        extensions: ["vue", "md"],
+        extensions: ["vue"],
         deep: true,
         dts: "src/components.d.ts",
         directoryAsNamespace: false,

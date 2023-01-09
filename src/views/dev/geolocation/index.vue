@@ -11,7 +11,7 @@
 
 <script lang="ts" setup>
 import { navGeoLocation, txGeolocation } from "@/utils/tools/geolocation";
-import { Toast } from "vant";
+import { closeToast, showLoadingToast, showToast } from "vant";
 
 let addressDetail = ref<any>(null);
 const router = useRouter();
@@ -21,24 +21,24 @@ const toMap = (): void => {
     });
 };
 const navLocation = () => {
-    Toast.loading({ duration: 0 });
+    showLoadingToast({ duration: 0 });
     navGeoLocation()
         .then((res) => {
-            Toast.clear();
+            closeToast();
             addressDetail.value = res;
         })
         .catch((err) => {
-            Toast(String(err));
+            showToast(String(err));
         });
 };
 const txLocation = () => {
-    Toast.loading({ duration: 0 });
+    showLoadingToast({ duration: 0 });
     txGeolocation()
         .then((res) => {
             addressDetail.value = res;
         })
         .finally(() => {
-            Toast.clear();
+            closeToast();
         });
 };
 </script>

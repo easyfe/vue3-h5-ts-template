@@ -1,6 +1,5 @@
 <template>
-    <van-field v-model.trim="model" class="base-input" :placeholder="placeholder" v-bind="$attrs" v-on="$attrs">
-    </van-field>
+    <van-field v-model.trim="model" class="base-input" v-bind="$attrs" v-on="$attrs"> </van-field>
 </template>
 
 <script setup lang="ts" name="BaseInput">
@@ -8,10 +7,6 @@ const props = defineProps({
     modelValue: {
         type: [String, Number],
         default: ""
-    },
-    placeholder: {
-        type: String,
-        default: "请输入"
     }
 });
 

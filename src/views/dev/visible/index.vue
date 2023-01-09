@@ -8,10 +8,10 @@
 
 <script lang="ts" setup>
 import BasePageVisible from "@/resources/components/base-page-visible/index.vue";
-import { Toast } from "vant";
+import { showSuccessToast } from "vant";
 let hideTime = ref<number | Date>(0);
 const show = (): void => {
-    Toast.success("页面已加载");
+    showSuccessToast("页面已加载");
 };
 const hidden = (): void => {
     hideTime.value = new Date();

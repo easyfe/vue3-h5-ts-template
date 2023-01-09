@@ -6,7 +6,7 @@
  */
 import { getWxConfig } from "@/config/apis/wx";
 import wx from "weixin-js-sdk";
-import { Toast } from "vant";
+import { showFailToast } from "vant";
 import session from "../session";
 import uaHelper from "@/utils/helper/ua";
 import retry from "@/utils/tools/retry";
@@ -164,7 +164,7 @@ export function wxScan(needRes: boolean): Promise<any> {
             },
             fail: function (err: any) {
                 console.log("扫码失败", err);
-                Toast.fail("发起扫码失败");
+                showFailToast("发起扫码失败");
                 reject("扫码失败");
             }
         });

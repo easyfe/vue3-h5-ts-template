@@ -167,7 +167,7 @@ const routers: RouteConfig[] = [
         path: "/dev/theme",
         name: "dev-theme",
         meta: {
-            title: "原生扫码"
+            title: "主题切换"
         },
         component: (): any => import("@/views/dev/theme/index.vue")
     },
