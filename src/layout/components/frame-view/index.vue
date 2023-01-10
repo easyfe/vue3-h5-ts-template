@@ -52,87 +52,61 @@ import uaHelper from "@/utils/helper/ua";
 import getRealPx from "@/utils/tools/get-realpx";
 import back from "@/utils/tools/back";
 import root from "@/config/pinia/root";
+import { ConfigProviderThemeVars } from "vant";
 
-const props = defineProps({
-    /** 沉浸式 */
-    immersion: {
-        type: Boolean,
-        default: false
-    },
-    /** 加载状态 */
-    loading: {
-        type: Boolean,
-        default: false
-    },
-    /** 错误状态*/
-    error: {
-        type: Boolean,
-        default: false
-    },
-    /** 空状态预定义类型 【注：仅当 error 设置为 true 的时候有效】*/
-    type: {
-        type: String,
-        default: "result"
-    },
-    /** 空状态自定义图片，同vant-empty接收的image */
-    image: {
-        type: String,
-        default: ""
-    },
-    /** 空状态自定义描述  【注：仅当 error 设置为 true 的时候有效】 */
-    desc: {
-        type: String,
-        default: ""
-    },
-    /** 是否显示tabbar */
-    tabbar: {
-        type: Boolean,
-        default: false
-    },
-    /** 头部title */
-    title: {
-        type: String,
-        default: ""
-    },
-    /** 自定义背景色 */
-    backgroundColor: {
-        type: String,
-        default: "#f4f5f6"
-    },
-    /** 页面背景图 */
-    backgroundImage: {
-        type: String,
-        default: ""
-    },
-    /** 底部插槽高度 */
-    footerHeight: {
-        type: Number,
-        default: 0
-    },
-    /** 底部插槽背景 */
-    footerColor: {
-        type: String,
-        default: ""
-    },
-    /** 是否展示navbar */
-    showNav: {
-        type: Boolean || undefined,
-        default: undefined
-    },
-    /** 自定义返回 */
-    customBack: {
-        type: Function || undefined,
-        default: undefined
-    },
-    /** 主题配置 */
-    themeVars: {
-        type: Object,
-        default: () => ({})
+const props = withDefaults(
+    defineProps<{
+        //沉浸式
+        immersion?: boolean;
+        //加载状态
+        loading?: boolean;
+        //错误状态
+        error?: boolean;
+        //空状态预定义类型 【注：仅当 error 设置为 true 的时候有效
+        type?: string;
+        //空状态自定义图片，同vant-empty接收的image
+        image?: string;
+        //空状态自定义描述  【注：仅当 error 设置为 true 的时候有效】
+        desc?: string;
+        //是否显示tabbar
+        tabbar?: boolean;
+        //头部title
+        title?: string;
+        //自定义背景色
+        backgroundColor?: string;
+        //页面背景图
+        backgroundImage?: string;
+        //底部插槽高度
+        footerHeight?: number;
+        // 底部插槽背景颜色
+        footerColor?: string;
+        //是否展示navbar
+        showNav?: boolean | undefined;
+        //自定义返回
+        customBack?: (() => void) | undefined;
+        //主题配置
+        themeVars?: ConfigProviderThemeVars | undefined;
+    }>(),
+    {
+        immersion: false,
+        loading: false,
+        error: false,
+        type: "result",
+        image: "",
+        desc: "",
+        tabbar: false,
+        title: "",
+        backgroundColor: "#f4f5f6",
+        backgroundImage: "",
+        footerHeight: 0,
+        footerColor: "",
+        showNav: undefined,
+        customBack: undefined,
+        themeVars: undefined
     }
-});
-
+);
 const emits = defineEmits<{
-    (e: "scroll", data: any): void;
+    (e: "scroll", data: UIEvent): void;
 }>();
 //navbar标题
 const navTitle = computed(() => {
@@ -198,9 +172,12 @@ const onClickLeft = (): void => {
         back();
     }
 };
-const onScroll = (e: any): void => {
+const onScroll = (e: UIEvent): void => {
     emits("scroll", e);
 };
+onMounted(() => {
+    document.title = navTitle.value;
+});
 </script>
 <style lang="scss" scoped>
 .van-config-provider {

@@ -27,7 +27,7 @@ const rate = ref(4);
 const slider = ref(50);
 const themeVars = computed(() => {
     return {
-        buttonSuccessBackgroundColor: "#242424"
+        buttonSuccessBackground: "#242424"
     };
 });
 const change = (): void => {

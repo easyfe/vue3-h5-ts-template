@@ -48,7 +48,7 @@ router.beforeEach(async (to, from, next) => {
         const safeAreaTop = await nativeHelper.getAppSafeTop();
         root().safeAreaTop = (safeAreaTop || 0) / 2;
     }
-    document.title = <string>to.meta?.title || "";
+    // document.title = <string>to.meta?.title || "";
     start = new Date().getTime();
     /** 资源没有加载完成的时候，给loading，为防止资源已加载完毕，加上延迟避免闪屏 */
     timer = window.setTimeout(() => {
