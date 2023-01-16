@@ -38,6 +38,11 @@ module.exports = defineConfig({
         //函数必须添加返回类型
         "@typescript-eslint/explicit-function-return-type": "off",
         //perttier错误
-        "prettier/prettier": "error"
+        "prettier/prettier": [
+            "error",
+            {
+                endOfLine: "auto"
+            }
+        ]
     }
 });
