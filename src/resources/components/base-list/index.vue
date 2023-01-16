@@ -2,6 +2,7 @@
     <van-pull-refresh
         v-model="refreshLoading"
         success-text="刷新成功"
+        class="fill-available"
         :disabled="!pull || !req"
         @refresh="listMore('refresh')"
     >
@@ -243,6 +244,9 @@ defineExpose({
 </script>
 
 <style lang="scss" scoped>
+.fill-available {
+    min-height: stretch;
+}
 .base-list {
     min-height: 100% !important;
 }
