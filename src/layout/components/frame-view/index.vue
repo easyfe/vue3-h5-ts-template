@@ -51,7 +51,7 @@
 import uaHelper from "@/utils/helper/ua";
 import getRealPx from "@/utils/tools/get-realpx";
 import back from "@/utils/tools/back";
-import root from "@/config/pinia/root";
+import global from "@/config/pinia/global";
 import { ConfigProviderThemeVars } from "vant";
 
 const props = withDefaults(
@@ -126,7 +126,7 @@ const computedFrameStyle = computed(() => {
 /** 获取顶部安全距离，针对APP场景*/
 const getSafeAreaTop = computed(() => {
     if (uaHelper.inApp) {
-        return root().safeAreaTop || 0;
+        return global().safeAreaTop || 0;
     }
     return 0;
 });

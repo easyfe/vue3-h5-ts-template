@@ -1,5 +1,5 @@
 import { _TouchEvent } from "types";
-import root from "@/config/pinia/root";
+import global from "@/config/pinia/global";
 import VConsole from "vconsole";
 import envHelper from "@/utils/helper/env";
 
@@ -8,8 +8,8 @@ const handleListenBack = (): void => {
     window.addEventListener(
         "popstate",
         () => {
-            root().SET_TRANSITION("slide-left");
-            root().SET_ISBACK(true);
+            global().SET_TRANSITION("slide-left");
+            global().SET_ISBACK(true);
         },
         false
     );

@@ -12,7 +12,7 @@ const routers: RouteConfig[] = [
             title: "首页",
             icon: "dev"
         },
-        component: (): any => import("@/views/index/index.vue")
+        component: () => import("@/views/index/index.vue")
     }
 ];
 

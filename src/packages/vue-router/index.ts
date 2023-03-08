@@ -1,4 +1,4 @@
-import root from "@/config/pinia/root";
+import global from "@/config/pinia/global";
 import envHelper from "@/utils/helper/env";
 import nativeHelper from "@/utils/helper/native";
 import uaHelper from "@/utils/helper/ua";
@@ -34,19 +34,19 @@ const initRoute = (): void => {
         return { routeList: cloneData, keepAliveName };
     };
     const res = setRoutes(routes as unknown as RouteConfig[]);
-    root().routeList = res.routeList;
-    root().keepaliveList = res.keepAliveName;
+    global().routeList = res.routeList;
+    global().keepaliveList = res.keepAliveName;
 };
 
 //路由前置守卫
 router.beforeEach(async (to, from, next) => {
     //初始化路由
-    if (!root().routeList.length) {
+    if (!global().routeList.length) {
         initRoute();
     }
-    if (uaHelper.inApp && root().safeAreaTop === null) {
+    if (uaHelper.inApp && global().safeAreaTop === null) {
         const safeAreaTop = await nativeHelper.getAppSafeTop();
-        root().safeAreaTop = (safeAreaTop || 0) / 2;
+        global().safeAreaTop = (safeAreaTop || 0) / 2;
     }
     // document.title = <string>to.meta?.title || "";
     start = new Date().getTime();
@@ -69,22 +69,22 @@ router.beforeEach(async (to, from, next) => {
         const $content = document.querySelector(domV);
         const scrollTop = $content?.scrollTop || 0;
         if (from.name) {
-            root().SET_SCROLL({ name: from.name.toString(), value: scrollTop });
+            global().SET_SCROLL({ name: from.name.toString(), value: scrollTop });
         }
     }
     try {
-        const isBack = root().isBack;
+        const isBack = global().isBack;
         if (isBack === null || (to.meta?.isTabbar && from.meta?.isTabbar)) {
             /** 页面初始化，tab切换的时候，不显示动画 */
-            root().SET_TRANSITION("");
-            root().SET_ISBACK(false);
+            global().SET_TRANSITION("");
+            global().SET_ISBACK(false);
         } else if (isBack === true) {
             /** 执行返回操作 */
-            root().SET_TRANSITION("slide-left");
-            root().SET_ISBACK(false);
+            global().SET_TRANSITION("slide-left");
+            global().SET_ISBACK(false);
         } else {
             /** 执行前进操作 */
-            root().SET_TRANSITION("slide-right");
+            global().SET_TRANSITION("slide-right");
         }
         //延迟30毫秒，让路由动画生效
         await sleep(30);
@@ -95,7 +95,7 @@ router.beforeEach(async (to, from, next) => {
 });
 
 router.afterEach((to) => {
-    root().SET_ISBACK(false);
+    global().SET_ISBACK(false);
     if (envHelper.dev()) {
         console.warn(`路由耗时：${new Date().getTime() - start}，定时器：${timer}`);
     }
@@ -107,7 +107,7 @@ router.afterEach((to) => {
         timer = 0;
     }
     document.getElementById("index-loading")?.setAttribute("style", "display:none");
-    root().SET_SHOWBACK(to.meta?.isTabbar !== true && to.meta?.showBack !== false);
+    global().SET_SHOWBACK(to.meta?.isTabbar !== true && to.meta?.showBack !== false);
     if (to.meta?.keepAliveName) {
         let domV = "";
         if (to.meta?.scrollId) {
@@ -118,7 +118,7 @@ router.afterEach((to) => {
         nextTick(() => {
             const $content = document.querySelector(domV);
             if ($content && to.name) {
-                $content.scrollTop = root().scrollTop[to.name.toString()] || 0;
+                $content.scrollTop = global().scrollTop[to.name.toString()] || 0;
             }
         });
     }

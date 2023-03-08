@@ -13,15 +13,15 @@
 import { closeNotify, closeToast } from "vant";
 import { _TouchEvent } from "types";
 import { clearRequest } from "@/packages/request";
-import root from "@/config/pinia/root";
+import global from "@/config/pinia/global";
 const route = useRoute();
 //动画效果P
 const transitionName = computed(() => {
-    return root().transitionName;
+    return global().transitionName;
 });
 //需要缓存的页面name
 const keepList = computed(() => {
-    return root().keepaliveList;
+    return global().keepaliveList;
 });
 /** 允许页面内部body的touchmove事件 */
 const handleTouch = (e: _TouchEvent): void => {

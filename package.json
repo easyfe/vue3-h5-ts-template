@@ -5,6 +5,7 @@
         "start": "vite --mode development",
         "build": "npm run build:prod",
         "build:test": "vite build --mode test",
+        "build:uat": "vite build --mode uat",
         "build:prod": "vite build --mode production",
         "lint": "eslint --fix \"src/**/*.{js,vue,ts}\"",
         "lint:error": "eslint --fix --quiet \"src/**/*.{js,vue,ts}\"",

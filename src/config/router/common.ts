@@ -7,7 +7,7 @@ const routers: RouteConfig[] = [
         meta: {
             title: "地图"
         },
-        component: (): any => import("@/views/common/map/index.vue")
+        component: () => import("@/views/common/map/index.vue")
     }
 ];
 
