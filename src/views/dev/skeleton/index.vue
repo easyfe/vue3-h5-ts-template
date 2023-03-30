@@ -1,5 +1,7 @@
 <template>
-    <base-skeleton :list="skeList"></base-skeleton>
+    <frame-view>
+        <base-skeleton :list="skeList"></base-skeleton>
+    </frame-view>
 </template>
 
 <script lang="ts" setup>

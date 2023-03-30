@@ -1,5 +1,5 @@
 <template>
-    <frame-view class="body">
+    <frame-view content-class="body">
         <h6>浮点运算加法</h6>
         <p>0.08+0.7={{ 0.08 + 0.7 }}</p>
         <p>0.08+0.7={{ floatPlus }}</p>
@@ -40,7 +40,7 @@ const floatMod = computed(() => {
     return floatHelper.mod(1, 0.9);
 });
 const floatFix = computed(() => {
-    return floatHelper.fix(0.9, 3);
+    return floatHelper.fix(0.9226, 3);
 });
 </script>
 
@@ -48,7 +48,7 @@ const floatFix = computed(() => {
 .body {
     display: flex;
     flex-direction: column;
-    padding: 50px;
+    padding: 20px;
     h6 {
         margin: 15px;
     }

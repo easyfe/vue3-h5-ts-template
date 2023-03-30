@@ -1,5 +1,5 @@
 <template>
-    <van-config-provider :theme-vars="props.themeVars">
+    <van-config-provider :theme-vars="privateThemeVars">
         <div
             class="frame-view"
             :class="[getSafeAreaTop ? '' : 'top-safe-area', showTabbar ? '' : 'bottom-safe-area']"
@@ -13,7 +13,7 @@
                 :border="props.opacity / 100 >= 1"
                 :style="{
                     paddingTop: `${getSafeAreaTop}px`,
-                    backgroundColor: props.immersion ? `rgba(255, 255, 255,${props.opacity / 100})` : 'inherit'
+                    backgroundColor: props.immersion ? `rgba(255, 255, 255,${props.opacity / 100})` : ''
                 }"
                 left-arrow
                 @click-left="onClickLeft"
@@ -32,11 +32,10 @@
                 </template> -->
             </van-nav-bar>
             <!-- 内容区域 -->
-            <div class="frame-view-content" :style="getContentStyle" @scroll="onScroll">
+            <div :class="['frame-view-content', props.contentClass]" :style="getContentStyle" @scroll="onScroll">
                 <template v-if="!error">
-                    <base-loading :loading="loading" class="frame-view-loading">
-                        <slot></slot>
-                    </base-loading>
+                    <base-loading v-if="loading" class="frame-view-loading"> </base-loading>
+                    <slot v-else></slot>
                     <!-- 底部插槽 -->
                     <div v-if="$slots.footer" class="base-footer" :style="bottomStyle">
                         <slot name="footer"></slot>
@@ -62,6 +61,8 @@ import { ConfigProviderThemeVars } from "vant";
 
 const props = withDefaults(
     defineProps<{
+        //内容样式
+        contentClass?: string;
         //头部透明度
         opacity?: number;
         //沉浸式
@@ -96,6 +97,7 @@ const props = withDefaults(
         themeVars?: ConfigProviderThemeVars | undefined;
     }>(),
     {
+        contentClass: "",
         opacity: 100,
         immersion: false,
         loading: false,
@@ -117,6 +119,12 @@ const props = withDefaults(
 const emits = defineEmits<{
     (e: "scroll", data: UIEvent): void;
 }>();
+const privateThemeVars = computed(() => {
+    const defaultThemeVars: ConfigProviderThemeVars = {
+        navBarIconColor: "#000"
+    };
+    return { ...defaultThemeVars, ...props.themeVars };
+});
 //navbar标题
 const navTitle = computed(() => {
     return props.title || (useRoute().meta?.title as string);

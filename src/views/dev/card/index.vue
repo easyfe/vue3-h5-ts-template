@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <frame-view cotnent-class="card">
         <h1>商品卡片(包含步进器)</h1>
         <the-product-list>
             <template #item_card>
@@ -143,7 +143,7 @@
             @click="clickHandle"
         >
         </the-product-card>
-    </div>
+    </frame-view>
 </template>
 
 <script setup lang="ts">

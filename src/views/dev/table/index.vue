@@ -1,58 +1,60 @@
 <template>
-    <frame-view class="table">
-        <h1>有数据</h1>
-        <base-table
-            :table-data="tableData"
-            :columns="columns"
-            :border="true"
-            :thead-row-height="50"
-            tbody-row-height="100"
-            :width="710"
-            border-color="#999999"
-        ></base-table>
+    <frame-view>
+        <div class="table">
+            <h1>有数据</h1>
+            <base-table
+                :table-data="tableData"
+                :columns="columns"
+                :border="true"
+                :thead-row-height="50"
+                tbody-row-height="100"
+                :width="710"
+                border-color="#999999"
+            ></base-table>
 
-        <h1>无数据(自定义)</h1>
-        <base-table :table-data="[]" :columns="columns" :border="true" :thead-row-height="50" :width="710">
-            <template #empty>
-                <div>暂无数据</div>
-            </template>
-        </base-table>
+            <h1>无数据(自定义)</h1>
+            <base-table :table-data="[]" :columns="columns" :border="true" :thead-row-height="50" :width="710">
+                <template #empty>
+                    <div>暂无数据</div>
+                </template>
+            </base-table>
 
-        <h1>无数据(使用表格自带的无数据展示)</h1>
-        <base-table :table-data="[]" :columns="columns" :border="true" :thead-row-height="50" :width="710">
-        </base-table>
+            <h1>无数据(使用表格自带的无数据展示)</h1>
+            <base-table :table-data="[]" :columns="columns" :border="true" :thead-row-height="50" :width="710">
+            </base-table>
 
-        <h1>纵向滚动</h1>
-        <base-table
-            :table-data="tableData"
-            :columns="columns"
-            :border="true"
-            :thead-row-height="50"
-            height="300"
-            tbody-row-height="100"
-            :width="699"
-        ></base-table>
+            <h1>纵向滚动</h1>
+            <base-table
+                :table-data="tableData"
+                :columns="columns"
+                :border="true"
+                :thead-row-height="50"
+                height="300"
+                tbody-row-height="100"
+                :width="699"
+            ></base-table>
 
-        <h1>横向滚动</h1>
-        <base-table
-            :table-data="tableData"
-            :columns="columnsNew"
-            :border="true"
-            :thead-row-height="50"
-            tbody-row-height="100"
-            :width="710"
-        ></base-table>
+            <h1>横向滚动</h1>
+            <base-table
+                :table-data="tableData"
+                :columns="columnsNew"
+                :border="true"
+                :thead-row-height="50"
+                tbody-row-height="100"
+                :width="710"
+            ></base-table>
 
-        <h1>只显示3行</h1>
-        <base-table
-            :table-data="tableData"
-            :columns="columns"
-            show-row-num="3"
-            :border="true"
-            :thead-row-height="50"
-            tbody-row-height="100"
-            :width="710"
-        ></base-table>
+            <h1>只显示3行</h1>
+            <base-table
+                :table-data="tableData"
+                :columns="columns"
+                show-row-num="3"
+                :border="true"
+                :thead-row-height="50"
+                tbody-row-height="100"
+                :width="710"
+            ></base-table>
+        </div>
     </frame-view>
 </template>
 
@@ -133,9 +135,6 @@ const columnsNew = reactive([
 
 <style lang="scss" scoped>
 .table {
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     background: #ffffff;

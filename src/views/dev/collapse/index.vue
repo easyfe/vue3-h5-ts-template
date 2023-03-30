@@ -1,5 +1,5 @@
 <template>
-    <frame-view class="collapse">
+    <frame-view content-class="collapse">
         <h1>折叠面板（使用默认展开、收起按钮）</h1>
         <base-collapse>
             <template #title-content> 标签 </template>
@@ -83,9 +83,6 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .collapse {
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     padding: 10px 20px 50px 20px;

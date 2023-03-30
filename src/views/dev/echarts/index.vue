@@ -1,5 +1,5 @@
 <template>
-    <frame-view class="echarts echarts-dev">
+    <frame-view content-class="echarts echarts-dev">
         <van-divider :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }">折线图</van-divider>
         <h1>基础折线图</h1>
         <basic-line-chart></basic-line-chart>

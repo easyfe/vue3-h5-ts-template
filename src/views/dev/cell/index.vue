@@ -1,6 +1,8 @@
 <template>
-    <frame-view class="page">
-        <base-card :config="cellConfig"> </base-card>
+    <frame-view>
+        <div class="cell">
+            <base-card :config="cellConfig"> </base-card>
+        </div>
     </frame-view>
 </template>
 

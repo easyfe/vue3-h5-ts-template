@@ -1,73 +1,75 @@
 <template>
-    <frame-view class="progress">
-        <base-progress
-            ref="progress"
-            class="progress-bar"
-            :stroke-width="670"
-            :stroke-hidth="26"
-            text-position="left"
-            track-color="#ffffff"
-            text-color="#000000"
-            track-border-color="#ED0017"
-            color="linear-gradient(to right, #FF8542, #FF7123,#ED0017)"
-        >
-            <template #other>
-                <div
-                    class="other-content"
-                    :style="{
-                        width: getRealPx(670)
-                    }"
-                >
-                    进度文案居左
-                </div>
-            </template>
-        </base-progress>
+    <frame-view>
+        <div class="progress">
+            <base-progress
+                ref="progress"
+                class="progress-bar"
+                :stroke-width="670"
+                :stroke-hidth="26"
+                text-position="left"
+                track-color="#ffffff"
+                text-color="#000000"
+                track-border-color="#ED0017"
+                color="linear-gradient(to right, #FF8542, #FF7123,#ED0017)"
+            >
+                <template #other>
+                    <div
+                        class="other-content"
+                        :style="{
+                            width: getRealPx(670)
+                        }"
+                    >
+                        进度文案居左
+                    </div>
+                </template>
+            </base-progress>
 
-        <base-progress
-            ref="progress"
-            class="progress-bar"
-            :stroke-width="670"
-            :stroke-hidth="26"
-            text-position="center"
-            track-color="#ffffff"
-            text-color="#000000"
-            track-border-color="#ED0017"
-            color="linear-gradient(to right, #FF8542, #FF7123,#ED0017)"
-        >
-            <template #other>
-                <div
-                    class="other-content"
-                    :style="{
-                        width: getRealPx(670)
-                    }"
-                >
-                    进度文案居中
-                </div>
-            </template>
-        </base-progress>
+            <base-progress
+                ref="progress"
+                class="progress-bar"
+                :stroke-width="670"
+                :stroke-hidth="26"
+                text-position="center"
+                track-color="#ffffff"
+                text-color="#000000"
+                track-border-color="#ED0017"
+                color="linear-gradient(to right, #FF8542, #FF7123,#ED0017)"
+            >
+                <template #other>
+                    <div
+                        class="other-content"
+                        :style="{
+                            width: getRealPx(670)
+                        }"
+                    >
+                        进度文案居中
+                    </div>
+                </template>
+            </base-progress>
 
-        <base-progress
-            ref="progress"
-            class="progress-bar"
-            :stroke-width="670"
-            :stroke-hidth="26"
-            text-position="right"
-            track-color="#ffffff"
-            text-color="#000000"
-            track-border-color="#ED0017"
-            color="linear-gradient(to right, #FF8542, #FF7123,#ED0017)"
-        >
-            <template #other>
-                <div
-                    class="other-content"
-                    :style="{
-                        width: getRealPx(670)
-                    }"
-                >
-                    进度文案居右
-                </div>
-            </template>
-        </base-progress>
+            <base-progress
+                ref="progress"
+                class="progress-bar"
+                :stroke-width="670"
+                :stroke-hidth="26"
+                text-position="right"
+                track-color="#ffffff"
+                text-color="#000000"
+                track-border-color="#ED0017"
+                color="linear-gradient(to right, #FF8542, #FF7123,#ED0017)"
+            >
+                <template #other>
+                    <div
+                        class="other-content"
+                        :style="{
+                            width: getRealPx(670)
+                        }"
+                    >
+                        进度文案居右
+                    </div>
+                </template>
+            </base-progress>
+        </div>
     </frame-view>
 </template>
 
@@ -82,11 +84,6 @@ const getRealPx = (px: number): string => {
 
 <style lang="scss" scoped>
 .progress {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
     background: #ffffff;
     padding: 50px 0px;
     h1 {

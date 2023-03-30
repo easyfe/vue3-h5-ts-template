@@ -84,9 +84,14 @@ const floatHelper = {
      * 补全小数点位数
      * @param num
      * @param point
+     * @param rm
      * @returns
      */
-    fix(num: BigSource, point: number): string {
+    fix(num: BigSource, point: number, rm?: "up" | "down"): string {
+        //0:向下取，1：向上取
+        if (rm) {
+            Big.RM = rm === "up" ? Big.roundHalfUp : Big.roundDown;
+        }
         return new Big(num).toFixed(point);
     }
 };
