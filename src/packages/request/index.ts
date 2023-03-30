@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import SyyRequest from "@syyfe/request";
+import SyyRequest from "@syyfe/web-request";
 import loading from "./loading";
 import lodash from "@/utils/tools/lodash";
 
@@ -29,11 +29,9 @@ const service = new SyyRequest({
                 response.data.data = lodash.cloneDeep(response.data);
                 return Promise.resolve(response);
             }
-            response.data.message = response.data.msg;
             return Promise.resolve(response);
         },
         responseError: (errorResponse): Promise<any> => {
-            errorResponse.data.message = errorResponse.data.msg;
             return Promise.reject(errorResponse);
         }
     }

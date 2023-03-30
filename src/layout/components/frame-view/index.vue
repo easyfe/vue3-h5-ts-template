@@ -5,13 +5,19 @@
             :class="[getSafeAreaTop ? '' : 'top-safe-area', showTabbar ? '' : 'bottom-safe-area']"
             :style="computedFrameStyle"
         >
-            <!-- 兼容APP头部用的空标签  -->
-            <div
-                v-if="!props.immersion"
-                :style="{ height: `${getSafeAreaTop}px`, width: '100vw', zIndex: 3000, backgroundColor: '#fff' }"
-            ></div>
             <!-- 头部导航  -->
-            <van-nav-bar v-if="showNavbar" :title="navTitle" left-arrow @click-left="onClickLeft">
+            <van-nav-bar
+                v-if="showNavbar"
+                :title="!!props.opacity ? navTitle : ''"
+                :fixed="props.immersion"
+                :border="props.opacity / 100 >= 1"
+                :style="{
+                    paddingTop: `${getSafeAreaTop}px`,
+                    backgroundColor: props.immersion ? `rgba(255, 255, 255,${props.opacity / 100})` : 'inherit'
+                }"
+                left-arrow
+                @click-left="onClickLeft"
+            >
                 <template v-if="$slots['nav-right']" #right>
                     <slot name="nav-right"></slot>
                 </template>
@@ -56,6 +62,8 @@ import { ConfigProviderThemeVars } from "vant";
 
 const props = withDefaults(
     defineProps<{
+        //头部透明度
+        opacity?: number;
         //沉浸式
         immersion?: boolean;
         //加载状态
@@ -88,6 +96,7 @@ const props = withDefaults(
         themeVars?: ConfigProviderThemeVars | undefined;
     }>(),
     {
+        opacity: 100,
         immersion: false,
         loading: false,
         error: false,
@@ -132,16 +141,10 @@ const getSafeAreaTop = computed(() => {
 });
 /** 计算是否需要显示navbar */
 const showNavbar = computed(() => {
-    if (props.showNav !== undefined) {
-        return props.showNav;
-    }
-    if (uaHelper.isWemp) {
+    if (uaHelper.isWemp || uaHelper.isWechat) {
         return false;
     }
-    if (uaHelper.inApp) {
-        return true;
-    }
-    return false;
+    return props.showNav ?? true;
 });
 /** 计算是否需要显示tabbar */
 const showTabbar = computed(() => {

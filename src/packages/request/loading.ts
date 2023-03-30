@@ -1,7 +1,7 @@
 import { closeToast, showLoadingToast, showToast } from "vant";
 let reqNum = 0;
 const loading = {
-    showToast(message: string): void {
+    showToast(message): void {
         showToast({
             message
         });
