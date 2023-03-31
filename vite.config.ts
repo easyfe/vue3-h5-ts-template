@@ -64,7 +64,14 @@ export default ({ mode }: ConfigEnv): UserConfig => {
             },
             rollupOptions: {
                 // 确保外部化处理那些你不想打包进库的依赖
-                external: []
+                external: [],
+                output: {
+                    manualChunks: {
+                        echart: ["echarts"],
+                        scan: ["@zxing/library"],
+                        core: ["vue", "vant", "vue-router"]
+                    }
+                }
                 // https://rollupjs.org/guide/en/#big-list-of-options
             },
             // 文件变化时重新构建，会保留构建进程

@@ -1,6 +1,6 @@
 <template>
     <frame-view>
-        <div @click="show = true">点击扫码</div>
+        <van-button type="primary" @click="show = true">点击扫码</van-button>
         <base-scan v-model="show" @success="onSuccess"></base-scan>
     </frame-view>
 </template>
