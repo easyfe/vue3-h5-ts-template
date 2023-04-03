@@ -8,6 +8,9 @@ import back from "@/utils/tools/back";
 const nativeHelper = {
     back() {
         if (uaHelper.inApp) {
+            // if (history.state.isFirstPage) {
+            //     //执行退出webview操作
+            // }
             nativeBridge.handleMethods("goBack", "");
             return;
         }

@@ -29,6 +29,8 @@ import { Lazyload } from "vant";
 const App = createApp(app);
 App.use(createPinia());
 App.use(router);
+await router.isReady();
+history.replaceState({ ...history.state, isFirstPage: true }, "");
 App.use(VueDOMPurifyHTML);
 App.use(Lazyload);
 Object.keys(directive).forEach((key) => {
