@@ -1,7 +1,6 @@
 import { nanoid } from "nanoid";
 import SyyRequest from "@syyfe/web-request";
 import loading from "./loading";
-import lodash from "@/utils/tools/lodash";
 
 const service = new SyyRequest({
     base: {
@@ -22,14 +21,12 @@ const service = new SyyRequest({
         },
         response: (response): Promise<any> => {
             if (response.config.url?.includes("apis.map.qq.com")) {
-                response.data.data = lodash.cloneDeep(response.data);
-                return Promise.resolve(response);
+                return Promise.resolve(response.data);
             }
             if (response.config.url?.includes("jsonplaceholder.typicode.com")) {
-                response.data.data = lodash.cloneDeep(response.data);
-                return Promise.resolve(response);
+                return Promise.resolve(response.data);
             }
-            return Promise.resolve(response);
+            return Promise.resolve(response.data.data);
         },
         responseError: (errorResponse): Promise<any> => {
             return Promise.reject(errorResponse);

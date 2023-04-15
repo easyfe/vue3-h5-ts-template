@@ -178,6 +178,14 @@ const routers: RouteConfig[] = [
             title: "骨架屏"
         },
         component: () => import("@/views/dev/skeleton/index.vue")
+    },
+    {
+        path: "/dev/masonry",
+        name: "dev-masonry",
+        meta: {
+            title: "瀑布流"
+        },
+        component: () => import("@/views/dev/masonry/index.vue")
     }
 ];
 

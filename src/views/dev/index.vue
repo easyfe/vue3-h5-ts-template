@@ -34,6 +34,10 @@ const list = reactive([
         title: "基础组件",
         data: [
             {
+                route: "/dev/masonry",
+                name: "瀑布流"
+            },
+            {
                 route: "/dev/visible",
                 name: "页面显示隐藏"
             },

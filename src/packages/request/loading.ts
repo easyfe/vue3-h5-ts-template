@@ -1,9 +1,9 @@
 import { closeToast, showLoadingToast, showToast } from "vant";
 let reqNum = 0;
 const loading = {
-    showToast(message): void {
+    showToast(err: any): void {
         showToast({
-            message
+            message: err.message || err.msg || err
         });
     },
     showLoading(): void {
