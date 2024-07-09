@@ -15,7 +15,7 @@
                     paddingTop: `${getSafeAreaTop}px`,
                     backgroundColor: props.immersion ? `rgba(255, 255, 255,${props.opacity / 100})` : ''
                 }"
-                left-arrow
+                :left-arrow="!isFirstPage"
                 @click-left="onClickLeft"
             >
                 <template v-if="$slots['nav-right']" #right>
@@ -107,7 +107,7 @@ const props = withDefaults(
         desc: "",
         tabbar: false,
         title: "",
-        backgroundColor: "#f4f5f6",
+        backgroundColor: "",
         backgroundImage: "",
         footerHeight: 0,
         footerColor: "",
@@ -116,8 +116,12 @@ const props = withDefaults(
         themeVars: undefined
     }
 );
+const route = useRoute();
+const isFirstPage = computed(() => {
+    return history.state.isFirstPage;
+});
 const emits = defineEmits<{
-    (e: "scroll", data: UIEvent): void;
+    (e: "scroll", data: Event): void;
 }>();
 const privateThemeVars = computed(() => {
     const defaultThemeVars: ConfigProviderThemeVars = {
@@ -127,7 +131,7 @@ const privateThemeVars = computed(() => {
 });
 //navbar标题
 const navTitle = computed(() => {
-    return props.title || (useRoute().meta?.title as string);
+    return props.title || (route?.meta?.title as string);
 });
 //计算frame-view的内联样式
 const computedFrameStyle = computed(() => {
@@ -183,7 +187,7 @@ const onClickLeft = (): void => {
         back();
     }
 };
-const onScroll = (e: UIEvent): void => {
+const onScroll = (e: Event): void => {
     emits("scroll", e);
 };
 onMounted(() => {

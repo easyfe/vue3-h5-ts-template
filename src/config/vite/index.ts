@@ -8,13 +8,11 @@ import { ConfigSvgIconsPlugin } from "./modules/svg";
 import { AutoImportDeps } from "./modules/autoImport";
 import { AutoRegistryComponents } from "./modules/component";
 import { ConfigRestartPlugin } from "./modules/restart";
-import OptimizationPersist from "vite-plugin-optimize-persist";
-import PkgConfig from "vite-plugin-package-config";
 import { ConfigVisualizerConfig } from "./modules/visualizer";
 import { ConfigCompressPlugin } from "./modules/compress";
-import { ConfigOssPlugin } from "./modules/oss";
-import { CosConfig } from "@syyfe/vite-plugin-cos";
 import VueSetupExtend from "vite-plugin-vue-setup-extend-plus";
+import { AliUploadPlugin } from "@easyfe/vite-plugin-upload";
+import versionPlugin from "./modules/version";
 
 /**
  * 创建vite插件
@@ -23,7 +21,8 @@ import VueSetupExtend from "vite-plugin-vue-setup-extend-plus";
  */
 export function createVitePlugins(params: {
     envMap: Record<string, any>;
-    uploadOption?: CosConfig;
+    uploadOption?: any;
+    now: string;
 }): (Plugin | Plugin[])[] {
     const vitePlugins: (Plugin | Plugin[])[] = [
         // vue支持
@@ -36,9 +35,6 @@ export function createVitePlugins(params: {
         AutoRegistryComponents(),
         // 监听配置文件改动重启
         ConfigRestartPlugin(),
-        // 加速首次构建
-        PkgConfig(),
-        OptimizationPersist(),
         /**
          * 扩展setup插件，支持在script标签中使用name属性
          * usage: <script setup name="MyComp"></script>
@@ -46,15 +42,16 @@ export function createVitePlugins(params: {
         VueSetupExtend()
     ];
     // 上传oss
-    if (params.envMap.VITE_APP_MODE !== "development" && params.uploadOption?.SecretId) {
-        vitePlugins.push(ConfigOssPlugin(params.uploadOption));
+    if (params.envMap.VITE_APP_MODE !== "development" && params?.uploadOption) {
+        vitePlugins.push(AliUploadPlugin(params.uploadOption));
     }
     // 代码压缩 .gzip之类
-    if (params.envMap.VITE_APP_COMPRESS) {
+    else if (params.envMap.VITE_APP_COMPRESS) {
         vitePlugins.push(ConfigCompressPlugin(params.envMap.VITE_APP_COMPRESS));
     }
     // 依赖分析
     if (params.envMap.VITE_APP_MODE !== "development") {
+        vitePlugins.push(versionPlugin({ version: params.now }));
         vitePlugins.push(ConfigVisualizerConfig());
     }
     return vitePlugins;

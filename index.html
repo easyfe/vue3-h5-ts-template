@@ -13,6 +13,8 @@
             content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
         />
         <link rel="dns-prefetch" href="//syycdn.dongchali.net" />
+        <link rel="stylesheet" href="//s1.hdslb.com/bfs/static/jinkela/long/font/medium.css" />
+        <link rel="stylesheet" href="//s1.hdslb.com/bfs/static/jinkela/long/font/regular.css" />
         <title>加载中...</title>
         <style>
             body {
@@ -20,35 +22,60 @@
             }
             .index-loading {
                 z-index: 2147483647;
-                background-color: #fff;
-                width: 100%;
+                background-color: transparent;
+                width: 100vw;
                 height: 100vh;
                 display: flex;
                 justify-content: center;
                 align-items: center;
             }
-            .spin {
+
+            .gk-loading {
                 display: flex;
-                align-items: center;
                 justify-content: center;
-                width: 16vw;
-                height: 16vw;
-                margin-bottom: 10vh;
+                flex-direction: column;
+                align-items: center;
+                word-wrap: break-word;
+                text-align: center;
+                color: #fff;
             }
-            .inner {
-                width: 8vw;
-                height: 8vw;
-                border-radius: 50%;
-                border: 0.6vw solid transparent;
-                border-color: #409eff transparent;
-                animation: spin 1.2s linear infinite;
+            .gk-loading .gk-loading-spinner {
+                animation: circle-rotator 1.4s linear infinite;
             }
-            @keyframes spin {
+            .gk-loading .gk-loading-path {
+                stroke-dasharray: 187;
+                stroke-dashoffset: 0;
+                transform-origin: center;
+                -webkit-animation: circle-dash 1.4s ease-in-out infinite;
+                animation: circle-dash 1.4s ease-in-out infinite;
+            }
+            .gk-loading .gk-loading-spinner * {
+                line-height: 0;
+                box-sizing: border-box;
+            }
+            .blue-loading {
+                stroke: #1458d4;
+            }
+            @keyframes circle-rotator {
                 0% {
-                    transform: rotate(0deg);
+                    transform: rotate(0);
+                }
+
+                100% {
+                    transform: rotate(270deg);
+                }
+            }
+            @keyframes circle-dash {
+                0% {
+                    stroke-dashoffset: 187;
+                }
+                50% {
+                    stroke-dashoffset: 46.75;
+                    transform: rotate(135deg);
                 }
                 100% {
-                    transform: rotate(360deg);
+                    stroke-dashoffset: 187;
+                    transform: rotate(450deg);
                 }
             }
             @media screen and (min-width: 800px) {
@@ -68,17 +95,30 @@
     <body>
         <noscript>
             <strong
-                >We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript
-                enabled. Please enable it to continue.</strong
+                >We're sorry but doesn't work properly without JavaScript enabled. Please enable it to continue.</strong
             >
         </noscript>
         <div id="index-loading" class="index-loading">
-            <div class="spin">
-                <div class="inner"></div>
+            <div class="gk-loading">
+                <svg
+                    viewBox="0 0 66 66"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="gk-loading-spinner"
+                    style="width: 40px; height: 40px"
+                >
+                    <circle
+                        fill="none"
+                        stroke-width="6"
+                        stroke-linecap="round"
+                        cx="33"
+                        cy="33"
+                        r="30"
+                        class="gk-loading-path blue-loading"
+                    ></circle>
+                </svg>
             </div>
         </div>
         <div id="app" style="height: 100%"></div>
-        <script async src="https://apis.map.qq.com/tools/geolocation/min?key=SJ5BZ-HVT6X-O6J4H-7C5JA-R6HWS-4ABSV&referer=myapp"></script>
         <script type="module" src="/src/main.ts"></script>
         <!-- built files will be auto injected -->
     </body>

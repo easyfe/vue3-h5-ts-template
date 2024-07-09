@@ -6,7 +6,24 @@
                 <div class="custom-loading-text">{{ text }}</div>
             </div>
             <div v-else class="spin">
-                <div class="inner" :style="innerStyle"></div>
+                <div class="gk-loading" :style="innerStyle">
+                    <svg
+                        viewBox="0 0 66 66"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="gk-loading-spinner"
+                        style="width: 40px; height: 40px"
+                    >
+                        <circle
+                            fill="none"
+                            stroke-width="6"
+                            stroke-linecap="round"
+                            cx="33"
+                            cy="33"
+                            r="30"
+                            class="gk-loading-path blue-loading"
+                        ></circle>
+                    </svg>
+                </div>
             </div>
         </div>
         <div v-show="error" class="loading">
@@ -86,7 +103,6 @@ const handleRetry = (): void => {
         color: #999999;
         font-size: 28px;
     }
-
     .spin {
         display: flex;
         align-items: center;
@@ -95,20 +111,52 @@ const handleRetry = (): void => {
         height: 16vw;
         margin-bottom: 10vh;
     }
-    .inner {
-        width: 8vw;
-        height: 8vw;
-        border-radius: 50%;
-        border: 0.6vw solid transparent;
-        border-color: #409eff transparent;
-        animation: spin 1.2s linear infinite;
+    .gk-loading {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        word-wrap: break-word;
+        text-align: center;
+        color: #fff;
     }
-    @keyframes spin {
+    .gk-loading .gk-loading-spinner {
+        animation: circle-rotator 1.4s linear infinite;
+    }
+    .gk-loading .gk-loading-path {
+        stroke-dasharray: 187;
+        stroke-dashoffset: 0;
+        transform-origin: center;
+        -webkit-animation: circle-dash 1.4s ease-in-out infinite;
+        animation: circle-dash 1.4s ease-in-out infinite;
+    }
+    .gk-loading .gk-loading-spinner * {
+        line-height: 0;
+        box-sizing: border-box;
+    }
+    .blue-loading {
+        stroke: #1458d4;
+    }
+    @keyframes circle-rotator {
         0% {
-            transform: rotate(0deg);
+            transform: rotate(0);
+        }
+
+        100% {
+            transform: rotate(270deg);
+        }
+    }
+    @keyframes circle-dash {
+        0% {
+            stroke-dashoffset: 187;
+        }
+        50% {
+            stroke-dashoffset: 46.75;
+            transform: rotate(135deg);
         }
         100% {
-            transform: rotate(360deg);
+            stroke-dashoffset: 187;
+            transform: rotate(450deg);
         }
     }
     .error-button {

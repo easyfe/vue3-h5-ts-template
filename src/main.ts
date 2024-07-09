@@ -4,10 +4,6 @@ import app from "./app.vue";
 import router from "@/packages/vue-router/index";
 /***************** 样式相关 ***************/
 import "virtual:svg-icons-register";
-//通用字体
-// import "vfonts/Lato.css";
-//等宽字体
-// import "vfonts/FiraCode.css";
 //引入全局样式
 import "@/styles/index.scss";
 //vant组件样式注册

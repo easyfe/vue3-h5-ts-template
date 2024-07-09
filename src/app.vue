@@ -1,13 +1,15 @@
 <template>
-    <div class="root" @touchmove="handleTouch">
-        <router-view v-slot="{ Component }">
-            <transition :name="transitionName">
-                <keep-alive :include="keepList">
-                    <component :is="Component" :key="route.name" />
-                </keep-alive>
-            </transition>
-        </router-view>
-    </div>
+    <van-config-provider theme="light">
+        <div class="root" @touchmove="handleTouch">
+            <router-view v-slot="{ Component }">
+                <transition :name="transitionName">
+                    <keep-alive :include="keepList">
+                        <component :is="Component" :key="route.name" />
+                    </keep-alive>
+                </transition>
+            </router-view>
+        </div>
+    </van-config-provider>
 </template>
 <script lang="ts" setup>
 import { closeNotify, closeToast } from "vant";
@@ -40,8 +42,8 @@ watch(
 </script>
 <style lang="scss" scoped>
 .root {
-    background-color: #f4f5f6;
-    height: 100%;
+    background-color: var(--van-background);
+    height: 100vh;
     overflow-y: auto;
     font-size: 14px;
 }
