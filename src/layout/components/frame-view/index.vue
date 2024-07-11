@@ -190,9 +190,6 @@ const onClickLeft = (): void => {
 const onScroll = (e: Event): void => {
     emits("scroll", e);
 };
-onMounted(() => {
-    document.title = navTitle.value;
-});
 </script>
 <style lang="scss" scoped>
 .van-config-provider {
