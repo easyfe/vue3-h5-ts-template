@@ -6,7 +6,7 @@
                 <div class="custom-loading-text">{{ text }}</div>
             </div>
             <div v-else class="spin">
-                <div class="gk-loading" :style="innerStyle">
+                <div class="gk-loading">
                     <svg
                         viewBox="0 0 66 66"
                         xmlns="http://www.w3.org/2000/svg"
@@ -73,9 +73,6 @@ const props = defineProps({
         default: "加载失败"
     }
 });
-const innerStyle = reactive({
-    borderColor: `${props.color} transparent;`
-});
 const emits = defineEmits<{
     (e: "retry"): void;
 }>();
@@ -93,12 +90,10 @@ const handleRetry = (): void => {
     display: flex;
     justify-content: center;
     align-items: center;
-
     .custom-loading-image {
         width: 200px;
         display: block;
     }
-
     .custom-loading-text {
         color: #999999;
         font-size: 28px;

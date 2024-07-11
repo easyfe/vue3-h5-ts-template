@@ -8,18 +8,23 @@
 
 <script lang="ts" setup>
 import BaseLoading from "@/resources/components/base-loading/index.vue";
-import { showToast } from "vant";
 
 let loading = ref(true);
 let error = ref(false);
 const handleRetry = (): void => {
-    showToast("执行重试动作");
+    init();
 };
-onMounted(() => {
+
+function init() {
+    loading.value = true;
+    error.value = false;
     setTimeout(() => {
         loading.value = false;
         error.value = true;
     }, 1500);
+}
+onMounted(() => {
+    init();
 });
 </script>
 
