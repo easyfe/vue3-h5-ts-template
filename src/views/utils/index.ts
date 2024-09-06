@@ -11,12 +11,7 @@ export function initGlobal() {
         try {
             if (!storage.getToken()) {
                 reject();
-                router.replace({
-                    path: "/login",
-                    query: {
-                        redirect: router.currentRoute.value.fullPath
-                    }
-                });
+                errorLogout();
                 return;
             }
             // const userInfo = await getUserInfo();
@@ -27,6 +22,18 @@ export function initGlobal() {
             resolve(true);
         } catch (err) {
             reject(err);
+        }
+    });
+}
+
+export function errorLogout() {
+    storage.setToken("");
+    global().initSuccess = false;
+    global().userInfo = {} as any;
+    router.replace({
+        path: "/login",
+        query: {
+            redirect: router.currentRoute.value.fullPath
         }
     });
 }

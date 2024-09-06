@@ -1,6 +1,7 @@
 import { nanoid } from "nanoid";
 import WebRequest from "@easyfe/web-request";
 import loading from "./loading";
+import { errorLogout } from "@/views/utils";
 
 const service = new WebRequest({
     base: {
@@ -30,6 +31,10 @@ const service = new WebRequest({
             return Promise.resolve(response.data.data);
         },
         responseError: (errorResponse): Promise<any> => {
+            if (errorResponse.status === 401) {
+                errorResponse.config.notify = false;
+                errorLogout();
+            }
             return Promise.reject(errorResponse);
         }
     }
