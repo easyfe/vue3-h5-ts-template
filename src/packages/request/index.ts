@@ -22,11 +22,11 @@ const service = new WebRequest({
             return Promise.resolve(config);
         },
         response: (response): Promise<any> => {
-            if (response.config.url?.includes("apis.map.qq.com")) {
-                return Promise.resolve(response.data);
-            }
-            if (response.config.url?.includes("jsonplaceholder.typicode.com")) {
-                return Promise.resolve(response.data);
+            const apiList = ["apis.map.qq.com", "jsonplaceholder.typicode.com"];
+            for (const api of apiList) {
+                if (response.config.url?.includes(api)) {
+                    return Promise.resolve(response.data);
+                }
             }
             return Promise.resolve(response.data.data);
         },
