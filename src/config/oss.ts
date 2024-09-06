@@ -1,8 +1,5 @@
 import { generateVersion, AliConfig } from "@easyfe/vite-plugin-upload";
 
-//是否允许上传到CDN
-export const enableUpload = false;
-
 //获取oss配置
 export function getOssConfig(envMap: Record<string, any>) {
     //上传配置
@@ -12,7 +9,7 @@ export function getOssConfig(envMap: Record<string, any>) {
         bucket: "",
         region: "",
         bucketName: envMap.VITE_APP_MODE === "production" ? "dist" : "test",
-        remoteDir: `vue3-admin-ts-template/${generateVersion()}`,
+        remoteDir: `vue3-h5-ts-template/${generateVersion()}`,
         from: "dist",
         excludesExtra: ["map"]
     };

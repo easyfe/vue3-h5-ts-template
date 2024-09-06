@@ -13,6 +13,8 @@ import "vant/es/notify/style";
 import "vant/es/image-preview/style";
 import "@vant/touch-emulator";
 
+import i18n from "./locales";
+
 /***************** vue相关 ***************/
 //导入布局相关初始化处理
 import "@/packages/init/index";
@@ -29,6 +31,7 @@ await router.isReady();
 history.replaceState({ ...history.state, isFirstPage: true }, "");
 App.use(VueDOMPurifyHTML);
 App.use(Lazyload);
+App.use(i18n);
 Object.keys(directive).forEach((key) => {
     App.directive(key, directive[key]);
 });

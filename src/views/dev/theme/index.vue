@@ -15,14 +15,25 @@
             <div style="margin: 16px">
                 <van-button round block type="primary" @click="change"> 全局切换主题 </van-button>
             </div>
+            <van-date-picker />
             <div style="margin: 16px">
-                <van-button round block type="success"> config-provider主题 </van-button>
+                <van-button
+                    round
+                    block
+                    type="success"
+                    @click="changeLocale(currentLocale === 'en-US' ? 'zh-CN' : 'en-US')"
+                >
+                    切换语言
+                </van-button>
             </div>
         </van-form>
     </frame-view>
 </template>
 <script setup lang="ts">
 import theme from "@/utils/tools/theme";
+import { useLocale } from "@/hooks/useLocale";
+
+const { changeLocale, currentLocale } = useLocale();
 const rate = ref(4);
 const slider = ref(50);
 const themeVars = computed(() => {

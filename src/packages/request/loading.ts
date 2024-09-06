@@ -1,4 +1,4 @@
-import { closeToast, showLoadingToast, showToast } from "vant";
+import { Toast, closeToast, showLoadingToast, showToast } from "vant";
 let reqNum = 0;
 const loading = {
     showToast(err: any): void {
