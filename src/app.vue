@@ -58,6 +58,9 @@ watch(
             // 设置中文语言包
             Locale.use("zh-CN", zhCn);
         }
+    },
+    {
+        immediate: true
     }
 );
 </script>
