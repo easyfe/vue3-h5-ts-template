@@ -69,6 +69,6 @@ watch(
     background-color: var(--van-background);
     height: 100vh;
     overflow-y: auto;
-    font-size: 14px;
+    font-size: 28px;
 }
 </style>

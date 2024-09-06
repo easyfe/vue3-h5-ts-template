@@ -21,7 +21,11 @@ export default defineStore({
         // 滑动动画
         transitionName: "",
         //顶部安全区高度
-        safeAreaTop: <null | number>null
+        safeAreaTop: <null | number>null,
+        //是否初始化完成
+        initSuccess: false,
+        //用户信息
+        userInfo: <Record<string, any>>{}
     }),
     actions: {
         SET_WXSDK(res: boolean): void {

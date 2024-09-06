@@ -19,6 +19,7 @@
         "@vueuse/core": "~7.5.4",
         "@zxing/library": "~0.19.1",
         "big.js": "~6.2.0",
+        "crypto-js": "^4.2.0",
         "dayjs": "~1.11.3",
         "echarts": "~5.3.3",
         "hex-to-css-filter": "~5.4.0",
