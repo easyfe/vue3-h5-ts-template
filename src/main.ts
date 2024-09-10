@@ -24,15 +24,19 @@ import VueDOMPurifyHTML from "vue-dompurify-html";
 //vant组件相关
 import { Lazyload } from "vant";
 
-const App = createApp(app);
-App.use(createPinia());
-App.use(router);
-await router.isReady();
-history.replaceState({ ...history.state, isFirstPage: true }, "");
-App.use(VueDOMPurifyHTML);
-App.use(Lazyload);
-App.use(i18n);
-Object.keys(directive).forEach((key) => {
-    App.directive(key, directive[key]);
-});
-App.mount("#app");
+async function bootstrap() {
+    const App = createApp(app);
+    App.use(createPinia());
+    App.use(router);
+    await router.isReady();
+    history.replaceState({ ...history.state, isFirstPage: true }, "");
+    App.use(VueDOMPurifyHTML);
+    App.use(Lazyload);
+    App.use(i18n);
+    Object.keys(directive).forEach((key) => {
+        App.directive(key, directive[key]);
+    });
+    App.mount("#app");
+}
+
+bootstrap();
