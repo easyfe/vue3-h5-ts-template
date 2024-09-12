@@ -1,6 +1,19 @@
 import { BaseFormArea, BaseFormDate, BaseFormDateExtra, BaseFormInput, BaseFormUploader } from "types/form";
+import { FieldProps, PickerProps, CalendarProps, FormInstance } from "vant";
 
 const formHelper = {
+    validate(value: FormInstance) {
+        return new Promise((resolve, reject) => {
+            value
+                .validate()
+                .then((res) => {
+                    resolve(res);
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+        });
+    },
     input(label: string, name: string, extra?: BaseFormInput) {
         return {
             inputType: "input",
@@ -20,7 +33,7 @@ const formHelper = {
     },
     date(label: string, name: string, options: BaseFormDate, extra?: BaseFormDateExtra) {
         return {
-            inputType: "datetime",
+            inputType: "date",
             label,
             name,
             options,
@@ -65,6 +78,36 @@ const formHelper = {
         return {
             inputType: "uploader",
             label,
+            name,
+            ...extra
+        };
+    },
+    picker(label: string, name: string, options: Partial<PickerProps>, extra?: BaseFormInput) {
+        return {
+            inputType: "picker",
+            label,
+            name,
+            options,
+            ...extra
+        };
+    },
+    calendar(
+        label: string,
+        name: string,
+        options: Partial<CalendarProps>,
+        extra?: BaseFormInput & { format?: (e: any) => string }
+    ) {
+        return {
+            inputType: "calendar",
+            label,
+            name,
+            options,
+            ...extra
+        };
+    },
+    slot(name: string, extra?: BaseFormInput) {
+        return {
+            inputType: "slot",
             name,
             ...extra
         };

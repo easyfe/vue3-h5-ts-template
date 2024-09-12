@@ -87,7 +87,6 @@ export default ({ mode }: ConfigEnv): UserConfig => {
                 output: {
                     manualChunks: {
                         echart: ["echarts"],
-                        ui: ["vant"],
                         scan: ["@zxing/library"],
                         core: ["vue", "vue-router"]
                     }

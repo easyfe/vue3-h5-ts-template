@@ -9,11 +9,11 @@ import global from "@/config/pinia/global";
 export function initGlobal() {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!storage.getToken()) {
-                reject();
-                errorLogout();
-                return;
-            }
+            // if (!storage.getToken()) {
+            //     reject("initGlobal token is null");
+            //     errorLogout();
+            //     return;
+            // }
             // const userInfo = await getUserInfo();
             // initDeptList();
             // global().userInfo = userInfo;

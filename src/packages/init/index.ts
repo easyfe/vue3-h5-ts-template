@@ -8,7 +8,7 @@ const handleListenBack = (): void => {
     window.addEventListener(
         "popstate",
         () => {
-            global().SET_TRANSITION("slide-left");
+            global().SET_TRANSITION("back");
             global().SET_ISBACK(true);
         },
         false

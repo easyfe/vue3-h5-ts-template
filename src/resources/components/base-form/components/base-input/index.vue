@@ -1,27 +1,9 @@
 <template>
-    <van-field v-model.trim="model" class="base-input" v-bind="$attrs" v-on="$attrs"> </van-field>
+    <van-field v-model.trim="model" class="base-input" placeholder="请输入" v-bind="$attrs"> </van-field>
 </template>
 
 <script setup lang="ts" name="BaseInput">
-const props = defineProps({
-    modelValue: {
-        type: [String, Number],
-        default: ""
-    }
-});
-
-const emits = defineEmits<{
-    (e: "update:modelValue", data: any): void;
-}>();
-
-const model = computed({
-    get: () => {
-        return props.modelValue;
-    },
-    set: (newVal) => {
-        emits("update:modelValue", newVal);
-    }
-});
+const model = defineModel<string | number>({ required: true, default: "" });
 </script>
 
 <style lang="scss" scoped>

@@ -6,7 +6,6 @@
             :placeholder="placeholder"
             v-bind="$attrs"
             readonly
-            v-on="$attrs"
             @click="visible = true"
         >
         </van-field>
@@ -20,46 +19,37 @@
 </template>
 
 <script setup lang="ts" name="BaseAction">
-const props = defineProps({
-    modelValue: {
-        type: [String, Number],
-        default: ""
-    },
-    placeholder: {
-        type: String,
-        default: "请选择"
-    },
-    /** 可选项数据源  结构{ name: "name", value: "value" }[] */
-    options: {
-        type: Array,
-        default: () => {
-            return [];
-        }
-    },
-    /** 自定义 options 结构中的字段  */
-    fieldNames: {
-        type: Object,
-        default: () => {
+const props = withDefaults(
+    defineProps<{
+        placeholder?: string;
+        options: any[];
+        fieldNames?: {
+            name: string;
+            value: string;
+        };
+    }>(),
+    {
+        placeholder: "请选择",
+        options: () => [],
+        fieldNames: () => {
             return { name: "name", value: "value" };
         }
     }
-});
+);
+
+const model = defineModel<string | number>({ required: true });
 
 let visible = ref(false);
 
-const emits = defineEmits<{
-    (e: "update:modelValue", data: any): void;
-}>();
-
 const showName = computed(() => {
     const actions = HandleOptions(props.options as any) || [];
-    const obj = actions.find((item: any) => String(item.value) === String(props.modelValue));
+    const obj = actions.find((item: any) => String(item.value) === String(model.value));
     return obj ? obj.name : "";
 });
 
 const select = (val: any): void => {
     visible.value = false;
-    emits("update:modelValue", val[props.fieldNames?.value]);
+    model.value = val[props.fieldNames?.value];
 };
 
 const HandleOptions = (

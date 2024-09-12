@@ -2,7 +2,7 @@
  * @Author: hanxinxin
  * @Date: 2021-04-20 18:17:48
  * @Last Modified by: hanxinxin
- * @Last Modified time: 2021-12-21 17:13:35
+ * @Last Modified time: 2024-09-06 15:56:11
  */
 
 import validatorHelper from "@/utils/helper/validator";
@@ -55,7 +55,7 @@ const storage = {
      * @param token
      */
     setToken: (token: string): void => {
-        storageUtil.set(TOKEN_KEY, token, TOKEN_EXPIRE);
+        storageUtil.set(TOKEN_KEY, token, 0);
     },
     /**
      * 获取token

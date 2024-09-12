@@ -6,7 +6,6 @@
             :placeholder="placeholder"
             v-bind="$attrs"
             readonly
-            v-on="$attrs"
             @click="handleShowPop"
         >
         </van-field>
@@ -30,7 +29,7 @@ import { getArea, _RegArea } from "@/config/apis/common";
 
 interface Props {
     //绑定的省市区的值
-    modelValue: (string | number)[];
+    // modelValue: (string | number)[];
     //占位提示
     placeholder?: string;
     //自定义 options 结构中的字段
@@ -52,6 +51,8 @@ const props = withDefaults(defineProps<Props>(), {
     join: "/"
 });
 
+const model = defineModel<(string | number)[]>({ required: true });
+
 //省市区列表
 let areaList = reactive<_RegArea[]>([]);
 
@@ -61,13 +62,13 @@ let visible = ref(false);
 let cascaderValue = ref<string | number>("");
 
 const showName = computed(() => {
-    if (props.modelValue.includes(0)) {
+    if (model.value.includes(0)) {
         cascaderValue.value = "";
         return "";
     }
-    cascaderValue.value = props.modelValue[props.modelValue.length - 1];
+    cascaderValue.value = model[model.value.length - 1];
     const map = flatArray(areaList);
-    const str = props.modelValue.reduce((res, key) => {
+    const str = model.value.reduce((res, key) => {
         if (!map[key]) {
             return "";
         }

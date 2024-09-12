@@ -32,12 +32,17 @@
                 </template> -->
             </van-nav-bar>
             <!-- 内容区域 -->
-            <div :class="['frame-view-content', props.contentClass]" :style="getContentStyle" @scroll="onScroll">
+            <div
+                ref="myFrameContent"
+                :class="['frame-view-content', props.contentClass]"
+                :style="getContentStyle"
+                @scroll="onScroll"
+            >
                 <template v-if="!error">
                     <base-loading v-if="loading" class="frame-view-loading"> </base-loading>
                     <slot v-else></slot>
                     <!-- 底部插槽 -->
-                    <div v-if="$slots.footer" class="base-footer" :style="bottomStyle">
+                    <div v-if="$slots.footer" class="base-footer" ref="myFooter">
                         <slot name="footer"></slot>
                     </div>
                 </template>
@@ -54,7 +59,6 @@
 
 <script lang="ts" setup name="FrameView">
 import uaHelper from "@/utils/helper/ua";
-import getRealPx from "@/utils/tools/get-realpx";
 import back from "@/utils/tools/back";
 import global from "@/config/pinia/global";
 import { ConfigProviderThemeVars } from "vant";
@@ -85,10 +89,6 @@ const props = withDefaults(
         backgroundColor?: string;
         //页面背景图
         backgroundImage?: string;
-        //底部插槽高度
-        footerHeight?: number;
-        // 底部插槽背景颜色
-        footerColor?: string;
         //是否展示navbar
         showNav?: boolean | undefined;
         //自定义返回
@@ -109,13 +109,13 @@ const props = withDefaults(
         title: "",
         backgroundColor: "",
         backgroundImage: "",
-        footerHeight: 0,
-        footerColor: "",
         showNav: undefined,
         customBack: undefined,
         themeVars: undefined
     }
 );
+const myFrameContent = ref();
+const myFooter = ref();
 const route = useRoute();
 const isFirstPage = computed(() => {
     return history.state.isFirstPage;
@@ -166,21 +166,16 @@ const showTabbar = computed(() => {
     return props.tabbar;
 });
 /** 计算content主体样式 */
-const getContentStyle = computed(() => {
-    if (props.footerHeight) {
-        return {
-            marginBottom: getRealPx(props.footerHeight) + "px"
-        };
-    }
-    return;
+const getContentStyle = ref({
+    marginBottom: "0"
 });
-/** 底部样式 */
-const bottomStyle = reactive({
-    height: getRealPx(props.footerHeight || 0) + "px",
-    backgroundColor: props.footerColor || props.backgroundColor,
-    overflow: "hidden"
-});
+
+const slots = useSlots();
+
 const onClickLeft = (): void => {
+    if (slots["nav-left"]) {
+        return;
+    }
     if (props.customBack) {
         props.customBack();
     } else {
@@ -190,13 +185,45 @@ const onClickLeft = (): void => {
 const onScroll = (e: Event): void => {
     emits("scroll", e);
 };
+
+let resizeObserver: ResizeObserver | null = null;
 onMounted(() => {
     document.title = navTitle.value;
+    if (myFooter.value) {
+        resizeObserver = new ResizeObserver((entries) => {
+            for (let entry of entries) {
+                const { height } = entry.contentRect;
+                getContentStyle.value.marginBottom = `${height}px`;
+            }
+        });
+        resizeObserver.observe(myFooter.value);
+    }
+});
+
+onActivated(() => {
+    nextTick(() => {
+        let $content = myFrameContent.value;
+        if (route.meta?.scrollId) {
+            $content = document.querySelector(`#${route.meta?.scrollId}`);
+        }
+        if ($content && route.name) {
+            $content.scrollTop = global().scrollTop[route.name.toString()] || 0;
+        }
+    });
+});
+
+onUnmounted(() => {
+    if (resizeObserver && myFooter.value) {
+        resizeObserver.unobserve(myFooter.value);
+        resizeObserver = null;
+    }
 });
 </script>
 <style lang="scss" scoped>
 .van-config-provider {
     height: 100%;
+    width: 100%;
+    position: absolute;
 }
 .frame-view {
     display: flex;

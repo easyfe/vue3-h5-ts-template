@@ -25,6 +25,9 @@
             >
                 <!-- slot默认插槽，由外部进行循环逻辑和数据组装，组件会传递每次请求数据到外部 -->
                 <slot></slot>
+                <template #loading v-if="!privateList.length && loading && skeleton?.length">
+                    <base-skeleton :list="skeleton"></base-skeleton>
+                </template>
                 <!-- slot为item的情况，由外部传入样式，内部控制循环逻辑，建议和default的slot二选一传递 -->
                 <div :class="['base-list', props.contentClass]">
                     <!-- 瀑布流布局 -->
@@ -48,6 +51,7 @@
 </template>
 
 <script lang="ts" setup name="BaseList">
+import BaseSkeleton from "../base-skeleton/index.vue";
 const props = withDefaults(
     defineProps<{
         //是否瀑布流
@@ -60,7 +64,7 @@ const props = withDefaults(
         pull?: boolean;
         //构造请求
         // eslint-disable-next-line @typescript-eslint/ban-types
-        req?: null | { fn: Function; params: Record<string, any> };
+        req?: null | { fn: Function; params?: Record<string, any> };
         //数据存在的key，比如返回数据是{code:200,data:{rows:[],total:100},msg:'xxx'}，则传递rows，如果还在rows下面层级，则传递rows.xxx.xx.xx，依此递归
         rowKey?: string;
         //焦点key，防止多个列表共存的情况下，重复加载（传入active的时候，必须同时传入key）
@@ -81,6 +85,8 @@ const props = withDefaults(
         pageKey?: string;
         //分页size变量
         sizeKey?: string;
+        //骨架屏数据
+        skeleton?: InstanceType<typeof BaseSkeleton>["$props"]["list"];
     }>(),
     {
         masonry: false,

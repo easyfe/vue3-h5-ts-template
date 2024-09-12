@@ -6,7 +6,6 @@
             :placeholder="placeholder"
             v-bind="$attrs"
             readonly
-            v-on="$attrs"
             @click="visible = true"
         >
         </van-field>
@@ -20,10 +19,6 @@
 import dateHelper from "@/utils/helper/date/index";
 
 const props = defineProps({
-    modelValue: {
-        type: [String, Number],
-        default: ""
-    },
     placeholder: {
         type: String,
         default: "请选择"
@@ -46,15 +41,13 @@ const props = defineProps({
     }
 });
 
+const model = defineModel<string | number>({ required: true, default: "" });
+
 let visible = ref(false);
 
 let currentDate = ref<string[]>([]);
 
 let showName = ref("");
-
-const emits = defineEmits<{
-    (e: "update:modelValue", data: any): void;
-}>();
 
 const fixZero = (value: number) => {
     if (!value) {
@@ -67,8 +60,8 @@ const fixZero = (value: number) => {
 };
 
 onMounted(() => {
-    if (props.modelValue) {
-        const date = dateHelper.toDate(props.modelValue);
+    if (model.value) {
+        const date = dateHelper.toDate(model.value);
         const tmpDate: string[] = [];
         props.options?.columnsType?.forEach((item: string) => {
             if (item === "year") {
@@ -82,7 +75,7 @@ onMounted(() => {
             }
         });
         currentDate.value = tmpDate;
-        showName.value = dateHelper.formatDate(props.modelValue, props.format);
+        showName.value = dateHelper.formatDate(model.value, props.format);
     }
 });
 
@@ -94,7 +87,7 @@ const onConfirm = (val: { selectedValues: string[] }): void => {
     );
     currentDate.value = val.selectedValues;
     showName.value = dateHelper.formatDate(dateVal, props.format);
-    emits("update:modelValue", dateVal);
+    model.value = dateVal;
 };
 </script>
 

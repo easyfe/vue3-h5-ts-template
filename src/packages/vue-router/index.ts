@@ -84,11 +84,11 @@ router.beforeEach(async (to, from, next) => {
             global().SET_ISBACK(false);
         } else if (isBack === true) {
             /** 执行返回操作 */
-            global().SET_TRANSITION("slide-left");
+            global().SET_TRANSITION("back");
             global().SET_ISBACK(false);
         } else {
             /** 执行前进操作 */
-            global().SET_TRANSITION("slide-right");
+            global().SET_TRANSITION("go");
         }
         //延迟30毫秒，让路由动画生效
         await sleep(30);
@@ -112,20 +112,25 @@ router.afterEach((to) => {
     }
     document.getElementById("index-loading")?.setAttribute("style", "display:none");
     global().SET_SHOWBACK(to.meta?.isTabbar !== true && to.meta?.showBack !== false);
-    if (to.meta?.keepAliveName) {
-        let domV = "";
-        if (to.meta?.scrollId) {
-            domV = `#${to.meta?.scrollId}`;
-        } else {
-            domV = `.frame-view-content`;
-        }
-        nextTick(() => {
-            const $content = document.querySelector(domV);
-            if ($content && to.name) {
-                $content.scrollTop = global().scrollTop[to.name.toString()] || 0;
-            }
-        });
-    }
+    // if (to.meta?.keepAliveName) {
+    //     let domV = "";
+    //     if (to.meta?.scrollId) {
+    //         domV = `#${to.meta?.scrollId}`;
+    //     } else {
+    //         domV = `.frame-view-content`;
+    //     }
+    //     nextTick(() => {
+    //         TODO:使用frame-view-content的时候，会取到上一个页面的元素，导致无法恢复滚动条位置
+    //         const $content = document.querySelector(domV);
+    //         if ($content && to.name) {
+    //             $content.scrollTop = global().scrollTop[to.name.toString()] || 0;
+    //             console.log(
+    //                 `恢复滚动条位置：${to.name.toString()}，${global().scrollTop[to.name.toString()] || 0}`,
+    //                 $content
+    //             );
+    //         }
+    //     });
+    // }
 });
 
 export default router;

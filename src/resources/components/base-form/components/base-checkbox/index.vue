@@ -1,5 +1,5 @@
 <template>
-    <van-field class="base-checkbox" v-bind="$attrs" v-on="$attrs">
+    <van-field class="base-checkbox" v-bind="$attrs">
         <template #input>
             <van-checkbox-group v-model="model" v-bind="$attrs" direction="horizontal">
                 <van-checkbox v-for="item in props.options" :key="item.value" :name="item.value" shape="square">
@@ -13,24 +13,12 @@
 <script setup lang="ts" name="BaseCheckbox">
 const props = withDefaults(
     defineProps<{
-        modelValue: any[];
         options: any[];
     }>(),
     {}
 );
 
-const emits = defineEmits<{
-    (e: "update:modelValue", data: any): void;
-}>();
-
-const model = computed({
-    get: () => {
-        return props.modelValue;
-    },
-    set: (newVal) => {
-        emits("update:modelValue", newVal);
-    }
-});
+const model = defineModel<any[]>({ required: true });
 </script>
 
 <style lang="scss" scoped>

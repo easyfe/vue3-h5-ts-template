@@ -1,5 +1,5 @@
 <template>
-    <van-field class="base-uploader" v-bind="$attrs" v-on="$attrs">
+    <van-field class="base-uploader" v-bind="$attrs">
         <template #input>
             <van-uploader
                 ref="uploaderControl"

@@ -2,37 +2,22 @@
     <van-form
         ref="baseForm"
         class="base-form"
-        v-bind="$attrs"
-        :label-align="props.labelAlign"
-        :input-align="props.inputAlign"
-        :error-message-align="props.errorMessageAlign"
+        label-align="left"
+        input-align="right"
+        error-message-align="right"
+        v-bind="props.formProps"
     >
-        <template v-for="group in props.config" :key="group.name">
-            <base-input v-if="group.inputType === 'input'" v-model.trim="model[group.name]" v-bind="group"></base-input>
-            <base-action v-if="group.inputType === 'action'" v-model="model[group.name]" v-bind="group"> </base-action>
-            <base-date v-if="group.inputType === 'datetime'" v-model="model[group.name]" v-bind="group"></base-date>
-            <base-area v-if="group.inputType === 'area'" v-model="model[group.name]" v-bind="group"></base-area>
-            <base-uploader v-if="group.inputType === 'uploader'" v-model="model[group.name]" v-bind="group">
-                <!-- 通过默认插槽可以自定义上传区域的样式。 -->
-                <template #uploader>
-                    <slot name="uploader"></slot>
+        <template v-for="item in props.config" :key="item.name">
+            <template v-if="handleCheckIf(item.if)">
+                <template v-if="item.inputType === 'slot'">
+                    <slot :name="item.name"></slot>
                 </template>
-            </base-uploader>
-            <base-checkbox
-                v-if="group.inputType === 'checkbox'"
-                v-model="model[group.name]"
-                :options="group.options"
-                v-bind="group"
-            ></base-checkbox>
-            <base-radio
-                v-if="group.inputType === 'radio'"
-                v-model="model[group.name]"
-                :options="group.options"
-                v-bind="group"
-            ></base-radio>
-            <base-switch v-if="group.inputType === 'switch'" v-model="model[group.name]" v-bind="group"></base-switch>
-            <template v-if="group.inputType === 'slot'">
-                <slot :name="group.name"></slot>
+                <component
+                    v-else
+                    :is="componentList[item.inputType]"
+                    v-model="model[item.name]"
+                    v-bind="item"
+                ></component>
             </template>
         </template>
     </van-form>
@@ -40,39 +25,35 @@
 
 <script setup lang="ts" name="BaseForm">
 import type { FormInstance } from "vant";
+import { FormProps } from "vant";
+import componentList from "./components/index";
+import { type } from "os";
 const props = withDefaults(
     defineProps<{
         config: Record<string, any>[];
-        modelValue: any;
-        labelAlign?: "center" | "left";
-        inputAlign?: "center" | "right";
-        errorMessageAlign?: "center" | "right";
+        formProps?: FormProps;
     }>(),
-    {
-        labelAlign: "left",
-        inputAlign: "right",
-        errorMessageAlign: "right"
-    }
+    {}
 );
 
-const emits = defineEmits<{
-    (e: "update:modelValue", value: any): void;
-}>();
+const model = defineModel<Record<string, any>>({ required: true, default: () => ({}) });
 
-const model = computed({
-    get: () => {
-        return props.modelValue;
-    },
-    set: (newVal) => {
-        emits("update:modelValue", newVal);
-    }
-});
 const baseForm = ref<FormInstance | null>(null);
 const validate = (name?: string | string[]): any => {
     return baseForm.value?.validate(name);
 };
 const resetValidation = (name?: string | string[]): void => {
     baseForm.value?.resetValidation(name);
+};
+/** 检查是否显示 */
+const handleCheckIf = (e: undefined | boolean | ((args: any) => boolean)): boolean => {
+    if (typeof e === "function") {
+        return e(model.value);
+    }
+    if (e === undefined) {
+        return true;
+    }
+    return e;
 };
 const submit = (): void => {
     validate();

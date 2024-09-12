@@ -16,6 +16,8 @@ import chinaJSON from "@/config/echarts/map/chinaChange.json";
 
 const baseCharts = ref(null);
 
+let charts = <echarts.ECharts | null>null;
+
 const props = defineProps({
     /** 图例宽度 */
     width: {
@@ -42,8 +44,6 @@ const props = defineProps({
         default: ""
     }
 });
-
-let charts = ref<null | any>(null);
 
 /**  图例宽度 */
 const $width = computed(() => {
@@ -81,6 +81,9 @@ const init_charts = (): void => {
     if (!baseCharts.value) {
         console.error("base-charts元素不存在");
         return;
+    }
+    if (charts) {
+        charts.dispose?.();
     }
     charts = echarts.init(baseCharts.value);
     charts.setOption(props.chartsOption);
