@@ -26,7 +26,13 @@ export function initGlobal() {
     });
 }
 
+/**
+ * 异常退出登录
+ */
 export function errorLogout() {
+    if (router.currentRoute.value.name === "login") {
+        return;
+    }
     storage.setToken("");
     global().initSuccess = false;
     global().userInfo = {} as any;
