@@ -3,7 +3,7 @@ let reqNum = 0;
 const loading = {
     showToast(err: any): void {
         showToast({
-            message: err.message || err.msg || err
+            message: err?.message || err?.msg || err
         });
     },
     showLoading(): void {

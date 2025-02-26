@@ -13,7 +13,7 @@
         "prepare": "husky install"
     },
     "dependencies": {
-        "@easyfe/web-request": "^1.0.1",
+        "@easyfe/web-request": "latest",
         "@vant/touch-emulator": "~1.3.2",
         "@vueuse/components": "~7.5.4",
         "@vueuse/core": "~7.5.4",
