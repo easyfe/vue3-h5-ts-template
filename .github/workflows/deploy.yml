@@ -1,0 +1,30 @@
+name: Site Deploy
+
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 18
+
+            - run: npm i -g pnpm
+            - run: pnpm install
+
+            - name: Build
+              run: |
+                  sed -i 's|VITE_APP_BASE_ROUTE=./|VITE_APP_BASE_ROUTE=/vue3-h5-ts-template/|' $(pwd)/.env
+                  pnpm build:test
+                  cp dist/index.html dist/404.html
+
+            - name: Deploy
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_dir: dist
