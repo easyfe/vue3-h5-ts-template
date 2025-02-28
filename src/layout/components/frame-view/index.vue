@@ -42,7 +42,7 @@
                     <base-loading v-if="loading" class="frame-view-loading"> </base-loading>
                     <slot v-else></slot>
                     <!-- 底部插槽 -->
-                    <div v-if="$slots.footer" class="base-footer" ref="myFooter">
+                    <div v-if="$slots.footer" ref="myFooter" class="base-footer">
                         <slot name="footer"></slot>
                     </div>
                 </template>

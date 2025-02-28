@@ -9,6 +9,6 @@ import { Plugin } from "vite";
 export const AutoImportDeps = (): Plugin => {
     return AutoImport({
         dts: "src/auto-imports.d.ts",
-        imports: ["vue", "pinia", "vue-router", "@vueuse/core"]
+        imports: ["vue", "pinia", "vue-router"]
     });
 };
