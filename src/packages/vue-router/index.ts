@@ -9,7 +9,7 @@ import routes from "./routes";
 import { initGlobal } from "@/views/utils";
 
 const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHistory(envHelper.get("VITE_APP_BASE_ROUTE")),
     routes
 });
 
